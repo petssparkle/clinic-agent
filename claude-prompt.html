@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude Code Implementation Prompt · Cowork V1</title>
+<style>
+  :root {
+    --panel: #ffffff;
+    --panel-soft: #f6f8fc;
+    --border: #e6e8ef;
+    --text: #0f172a;
+    --muted: #475569;
+    --brand: #0d9488;
+    --brand-2: #14b8a6;
+    --accent: #ec4899;
+    --accent-2: #f59e0b;
+    --green: #22c55e;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; padding: 0; background: var(--panel-soft); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 22px 60px; }
+
+  .back-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: var(--muted); font-size: 12.5px; font-weight: 600; margin: 0 8px 18px 0; transition: all 0.15s; }
+  .back-link:hover { background: var(--brand); color: white; border-color: var(--brand); transform: translateY(-1px); }
+
+  .hero {
+    background: radial-gradient(900px 500px at 10% 0%, rgba(20,184,166,0.28), transparent 60%),
+                radial-gradient(700px 400px at 100% 20%, rgba(236,72,153,0.18), transparent 60%),
+                linear-gradient(135deg, #0b1020 0%, #134e4a 60%, #0d9488 120%);
+    color: white;
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: var(--shadow);
+  }
+  .hero .pill { display: inline-block; padding: 5px 11px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; color: #e2e8f0; }
+  .hero h1 { font-size: 30px; line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .hero h1 span { background: linear-gradient(90deg, #5eead4, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lead { font-size: 15px; max-width: 820px; color: #cbd5e1; margin: 0 0 18px; }
+  .hero .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero .cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: white; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 13.5px; box-shadow: 0 4px 14px rgba(13,148,136,0.30); }
+  .hero .cta.alt { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); }
+
+  section { margin-top: 36px; padding-top: 4px; }
+  section + section { border-top: 1px solid rgba(13, 148, 136, 0.10); padding-top: 28px; margin-top: 28px; }
+  h2 { font-size: 21px; margin: 0 0 8px; letter-spacing: -0.015em; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: white; border-radius: 9px; font-size: 12px; font-weight: 700; }
+  h3 { font-size: 15.5px; margin: 16px 0 6px; color: var(--text); font-weight: 700; }
+  p { color: var(--muted); margin: 6px 0; font-size: 14px; }
+  .section-sub { color: var(--muted); font-size: 14px; margin: 0 0 14px; max-width: 920px; }
+
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: var(--shadow); margin-top: 12px; }
+  ul.clean { padding-left: 18px; margin: 6px 0; }
+  ul.clean li { color: var(--muted); font-size: 13.5px; line-height: 1.55; margin: 4px 0; }
+  ul.clean li strong { color: var(--text); }
+
+  code { background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.18); padding: 1px 6px; border-radius: 5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--brand); }
+
+  .code-block { position: relative; margin: 12px 0; }
+  .code-block pre { background: #0b1020; color: #e2e8f0; padding: 16px 18px; padding-top: 44px; border-radius: 12px; overflow-x: auto; overflow-y: auto; max-height: 520px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.55; margin: 0; }
+  .code-block pre code { background: transparent; border: 0; padding: 0; color: inherit; font-size: inherit; }
+  .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: rgba(255,255,255,0.10); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .code-block .copy-btn:hover { background: rgba(255,255,255,0.18); color: white; }
+  .code-block .copy-btn.copied { background: var(--green); color: white; border-color: var(--green); }
+  .code-block .label { position: absolute; top: 12px; left: 14px; font-size: 11.5px; font-weight: 700; color: #5eead4; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .callout { background: linear-gradient(135deg, rgba(13,148,136,0.06), rgba(20,184,166,0.10)); border: 1px solid rgba(13,148,136,0.18); border-left: 4px solid var(--brand); border-radius: 10px; padding: 14px 16px; font-size: 13.5px; color: var(--text); margin: 14px 0; }
+  .callout.warn { background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(236,72,153,0.06)); border-color: rgba(245,158,11,0.30); border-left-color: var(--accent-2); }
+  .callout.green { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(13,148,136,0.10)); border-color: rgba(34,197,94,0.20); border-left-color: var(--green); }
+  .callout strong { color: var(--text); }
+
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+  table th, table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table th { background: var(--panel-soft); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div>
+  <a class="back-link" href="index.html">← Main plan</a>
+  <a class="back-link" href="v1-build.html">🛠️ Build playbook</a>
+  <a class="back-link" href="strategic-review.html">🧠 Strategic review</a>
+</div>
+
+<div class="hero">
+  <span class="pill">Claude Code · Implementation Prompt · Ready Jun 15</span>
+  <h1>The exact prompt <span>Claude Code uses to build V1.</span></h1>
+  <p class="lead">A locked, self-contained system prompt + 11 weekly task prompts. Save the full payload as <code style="background:rgba(255,255,255,0.10); color:#5eead4; padding:1px 7px;">CLAUDE.md</code> in the repo root — Claude Code auto-loads it on every session. Includes the project constitution, the master Prisma schema, 8 copy-paste code patterns (webhook, channel connector, intent classifier, plan gate, audit, cron, server action), and week-by-week deliverables with acceptance criteria.</p>
+  <div class="cta-row">
+    <a class="cta" href="CLAUDE.md" download="CLAUDE.md">⬇️ Download CLAUDE.md</a>
+    <a class="cta alt" href="#how-to-use">How to use →</a>
+  </div>
+</div>
+
+<!-- HOW TO USE -->
+<section id="how-to-use">
+  <h2><span class="num">✦</span>How to use this prompt</h2>
+  <p class="section-sub">Three modes of use, depending on where you are in the project.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>1 · Day 1 — paste into Claude Code</h3>
+      <ul class="clean">
+        <li>Save <code>CLAUDE.md</code> to the repo root (Claude Code auto-reads it on every session).</li>
+        <li>Open Claude Code in the repo, run: <code>"Implement Week 1 deliverables per §9 of CLAUDE.md."</code></li>
+        <li>Review every diff before merging. Don't auto-accept.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>2 · Each subsequent week</h3>
+      <ul class="clean">
+        <li>Open Claude Code. Confirm <code>CLAUDE.md</code> is still loaded.</li>
+        <li>Run: <code>"Implement Week N deliverables per §9 of CLAUDE.md. Cross-reference the schema in §5 and the patterns in §7."</code></li>
+        <li>Run the Acceptance Criteria checks at the end of each week.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>3 · When something off-spec is asked</h3>
+      <ul class="clean">
+        <li>Claude Code is instructed to refuse scope creep (§11 anti-patterns).</li>
+        <li>If it pushes back: it's working as designed. Move the ask to the V1.1 backlog.</li>
+        <li>If you need to expand scope: edit <code>CLAUDE.md</code> first, commit the change, then ask again.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>4 · Editing the prompt</h3>
+      <ul class="clean">
+        <li>Edit <code>CLAUDE.md</code> directly in the repo — it's a markdown file.</li>
+        <li>Every edit to <code>CLAUDE.md</code> = a PR + Belal review. This is the project constitution.</li>
+        <li>Tag changes in the file footer: <code>Last updated: YYYY-MM-DD · Author: ...</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION INDEX -->
+<section id="index">
+  <h2><span class="num">📑</span>What's in the prompt</h2>
+  <p class="section-sub">The full prompt has 12 sections totalling ~1,200 lines of markdown. Here's the map:</p>
+
+  <table>
+    <thead><tr><th>§</th><th>Section</th><th>What it covers</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>The Project in 60 Seconds</td><td>Vision, 4 pillars, launch date, team, customers, pricing.</td></tr>
+      <tr><td>1</td><td>Locked Tech Stack</td><td>17 layers, all decided. Claude Code will not re-evaluate.</td></tr>
+      <tr><td>2</td><td>Repo Structure</td><td>Full <code>cw-platform/</code> directory tree.</td></tr>
+      <tr><td>3</td><td>Code Conventions</td><td>TypeScript strict, RSC-first, Server Actions, Prisma scoping, no PII in logs, test coverage targets.</td></tr>
+      <tr><td>4</td><td>Multi-Tenancy &amp; Security</td><td>Workspace = Clerk Org, Postgres RLS, webhook signature verification, server-enforced plan gating.</td></tr>
+      <tr><td>5</td><td>Master Prisma Schema</td><td>20 tables, all indexes, all enums. Apply as the Day-1 migration.</td></tr>
+      <tr><td>6</td><td>Environment Variables</td><td>Full <code>.env</code> template — 30 vars.</td></tr>
+      <tr><td>7</td><td>Key Code Patterns</td><td>8 copy-paste reference implementations.</td></tr>
+      <tr><td>8</td><td>The 11-Week Execution Plan</td><td>How to use §9 prompts week-by-week.</td></tr>
+      <tr><td>9</td><td>Per-Week Detailed Prompts</td><td>11 separate week blocks. Each has objectives, deliverables, acceptance criteria, testing, risks.</td></tr>
+      <tr><td>10</td><td>Acceptance Criteria &amp; Testing Standards</td><td>Definition of Done, test coverage targets, critical e2e flows.</td></tr>
+      <tr><td>11</td><td>Anti-Patterns</td><td>9 patterns Claude Code is instructed to refuse.</td></tr>
+      <tr><td>12</td><td>How to Use This Prompt</td><td>Onboarding for new sessions.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- KEY PATTERNS PREVIEW -->
+<section id="patterns">
+  <h2><span class="num">🧩</span>Key code patterns (preview)</h2>
+  <p class="section-sub">The 8 reference implementations in §7. Copy-paste straight from <code>CLAUDE.md</code> when building each layer. Each block has a one-click copy button.</p>
+
+  <h3>7.1 · Workspace Context middleware</h3>
+  <div class="code-block">
+    <span class="label">middleware.ts</span>
+    <button class="copy-btn" data-clip="middleware">Copy</button>
+    <pre><code id="code-middleware">import { authMiddleware } from '@clerk/nextjs';
+import { NextResponse } from 'next/server';
+
+export default authMiddleware({
+  publicRoutes: [
+    '/',
+    '/pricing',
+    '/login(.*)',
+    '/signup(.*)',
+    '/api/webhooks/(.*)',
+    '/api/cron/(.*)',
+    '/api/health',
+  ],
+  async afterAuth(auth, req) {
+    if (!auth.userId) return NextResponse.next();
+    const workspaceId = await resolveWorkspaceId(auth.orgId);
+    if (!workspaceId &amp;&amp; !req.nextUrl.pathname.startsWith('/setup')) {
+      return NextResponse.redirect(new URL('/setup', req.url));
+    }
+    const res = NextResponse.next();
+    if (workspaceId) res.headers.set('x-workspace-id', workspaceId);
+    return res;
+  },
+});
+
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+};</code></pre>
+  </div>
+
+  <h3>7.2 · Channel Connector interface</h3>
+  <div class="code-block">
+    <span class="label">lib/channels/types.ts</span>
+    <button class="copy-btn" data-clip="connector">Copy</button>
+    <pre><code id="code-connector">import { Channel } from '@prisma/client';
+
+export type InboundMessage = {
+  channel: Channel;
+  externalId: string;     // Meta msg id — idempotency key
+  fromExternalId: string; // phone for WA, IG handle for IG
+  fromName?: string;
+  body: string;
+  attachments: { url: string; mimeType: string }[];
+  timestamp: Date;
+  workspacePhoneId?: string;
+};
+
+export interface ChannelConnector {
+  readonly channel: Channel;
+  verifyWebhookSignature(rawBody: string, signature: string): boolean;
+  parseInbound(payload: unknown): InboundMessage[];
+  send(args: {
+    workspaceId: string;
+    to: string;
+    body: string;
+    replyToMessageId?: string;
+  }): Promise&lt;{ externalId: string }&gt;;
+}</code></pre>
+  </div>
+
+  <h3>7.3 · WhatsApp webhook with idempotency</h3>
+  <div class="code-block">
+    <span class="label">app/api/webhooks/whatsapp/route.ts</span>
+    <button class="copy-btn" data-clip="webhook">Copy</button>
+    <pre><code id="code-webhook">import { NextRequest, NextResponse } from 'next/server';
+import { whatsappConnector } from '@/lib/channels/whatsapp';
+import { db } from '@/lib/db';
+import { inngest } from '@/inngest/client';
+
+export async function GET(req: NextRequest) {
+  const p = req.nextUrl.searchParams;
+  if (
+    p.get('hub.mode') === 'subscribe' &amp;&amp;
+    p.get('hub.verify_token') === process.env.META_VERIFY_TOKEN
+  ) {
+    return new NextResponse(p.get('hub.challenge'), { status: 200 });
+  }
+  return new NextResponse('forbidden', { status: 403 });
+}
+
+export async function POST(req: NextRequest) {
+  const rawBody = await req.text();
+  const signature = req.headers.get('x-hub-signature-256') ?? '';
+  if (!whatsappConnector.verifyWebhookSignature(rawBody, signature)) {
+    return new NextResponse('invalid signature', { status: 401 });
+  }
+
+  const payload = JSON.parse(rawBody);
+  const inbounds = whatsappConnector.parseInbound(payload);
+
+  for (const msg of inbounds) {
+    try {
+      await db.webhookDelivery.create({
+        data: { channel: 'WHATSAPP', externalId: msg.externalId, payload: msg as any },
+      });
+    } catch (e: any) {
+      if (e.code === 'P2002') continue;  // already received, idempotent skip
+      throw e;
+    }
+    await inngest.send({
+      name: 'message.inbound',
+      data: { channel: 'WHATSAPP', externalId: msg.externalId },
+    });
+  }
+  return NextResponse.json({ ok: true });
+}</code></pre>
+  </div>
+
+  <h3>7.4 · Intent classifier (with cheap pre-classifier)</h3>
+  <div class="code-block">
+    <span class="label">lib/ai/classifyIntent.ts</span>
+    <button class="copy-btn" data-clip="classifier">Copy</button>
+    <pre><code id="code-classifier">import Anthropic from '@anthropic-ai/sdk';
+import { preClassify } from './preClassifier';
+import { checkCostCap } from './costGuard';
+import { db } from '@/lib/db';
+
+const claude = new Anthropic();
+
+export async function classifyIntent(args: {
+  workspaceId: string;
+  messageId: string;
+  body: string;
+  availableIntents: string[];
+}): Promise&lt;{ intent: string; confidence: 'high' | 'low' | 'preclassified' }&gt; {
+
+  // 1. cheap pre-classifier
+  const pre = preClassify(args.body);
+  if (pre &amp;&amp; args.availableIntents.includes(pre)) {
+    await log(args, pre, 'preclassified', true);
+    return { intent: pre, confidence: 'preclassified' };
+  }
+
+  // 2. cost-cap
+  if (!(await checkCostCap(args.workspaceId))) {
+    await log(args, 'HANDOFF', 'low', false);
+    return { intent: 'HANDOFF', confidence: 'low' };
+  }
+
+  // 3. Claude
+  const result = await claude.messages.create({
+    model: process.env.CLAUDE_MODEL ?? 'claude-sonnet-4-6',
+    max_tokens: 64,
+    system: `You classify customer DMs into ONE of these intents: ${args.availableIntents.join(', ')}.
+Reply with ONLY the intent name, in capitals.
+If none match clearly, reply: HANDOFF.
+The message may be in any language.`,
+    messages: [{ role: 'user', content: args.body }],
+  });
+
+  const text = result.content[0].type === 'text'
+    ? result.content[0].text.trim().toUpperCase() : 'HANDOFF';
+  const matched = args.availableIntents.includes(text) ? text : 'HANDOFF';
+
+  await log(args, matched, matched === 'HANDOFF' ? 'low' : 'high', false,
+            result.usage.input_tokens, result.usage.output_tokens);
+
+  return { intent: matched, confidence: matched === 'HANDOFF' ? 'low' : 'high' };
+}</code></pre>
+  </div>
+
+  <h3>7.5 · Plan-feature gate</h3>
+  <div class="code-block">
+    <span class="label">lib/plan/gate.ts</span>
+    <button class="copy-btn" data-clip="gate">Copy</button>
+    <pre><code id="code-gate">import { NextResponse } from 'next/server';
+import { getWorkspaceContext } from '@/lib/auth';
+import { PLAN_FEATURES, type FeatureName } from './features';
+
+export async function requireFeature(feature: FeatureName) {
+  const { workspace, subscription } = await getWorkspaceContext();
+  const plan = subscription?.plan ?? 'STARTER';
+  const features = PLAN_FEATURES[plan];
+
+  if (!features[feature]) throw new PlanGateError(plan, feature);
+  return { workspace, plan, features };
+}
+
+export class PlanGateError extends Error {
+  constructor(public plan: string, public feature: FeatureName) {
+    super(`Feature '${feature}' not available on plan '${plan}'`);
+  }
+}
+
+// Use in API route:
+// try { await requireFeature('chatbot'); } catch (e) {
+//   if (e instanceof PlanGateError) return NextResponse.json({
+//     ok: false,
+//     error: { code: 'PLAN_GATE', plan: e.plan, feature: e.feature, upgradeUrl: '/billing' }
+//   }, { status: 402 });
+//   throw e;
+// }</code></pre>
+  </div>
+
+  <p style="font-size:13px; color:var(--muted); margin-top:18px;">+ 3 more in <code>CLAUDE.md</code>: <strong>Audit logger</strong> (7.6), <strong>Inngest reminder cron</strong> (7.7), <strong>Server Action mutation pattern</strong> (7.8).</p>
+</section>
+
+<!-- WEEK BLOCKS -->
+<section id="weeks">
+  <h2><span class="num">📅</span>The 11 weekly prompts</h2>
+  <p class="section-sub">Each week is a self-contained block in §9. When starting Week N, paste the system context (Sections 0–7) + the Week N block. Acceptance criteria are concrete and testable.</p>
+
+  <table>
+    <thead><tr><th>Wk</th><th>Dates</th><th>Focus</th><th>Acceptance criteria headline</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1</strong></td><td>Jun 15–21</td><td>Foundations · repo · schema · auth · RLS</td><td>Two test workspaces; raw-SQL queries respect RLS isolation.</td></tr>
+      <tr><td><strong>2</strong></td><td>Jun 22–28</td><td>WA end-to-end · webhook idempotency · outbound queue</td><td>Real DM lands in DB once even after webhook replays 3×.</td></tr>
+      <tr><td><strong>3</strong></td><td>Jun 29–Jul 5</td><td>Unified Inbox UI · SWR polling · IG/Messenger connectors</td><td>Conversation list updates without F5 within 5s of inbound.</td></tr>
+      <tr><td><strong>4</strong></td><td>Jul 6–12</td><td>AI Chatbot engine · pre-classifier · cost-cap</td><td>10 test inbounds → ≥8 correct auto-replies, 2 HANDOFF.</td></tr>
+      <tr><td><strong>5</strong></td><td>Jul 13–19</td><td>Setup Wizard · vertical presets · FAQ editor</td><td><strong>Non-engineer completes wizard in &lt;20 min, zero help.</strong></td></tr>
+      <tr><td><strong>6</strong></td><td>Jul 20–26</td><td>Calendar · booking via interactive list · reminders cron</td><td>Full booking flow E2E; reminder fires once at the right time.</td></tr>
+      <tr><td><strong>7</strong></td><td>Jul 27–Aug 2</td><td>Mini CRM · tags · auto-tagging · Custom Follow-Up Rules</td><td>Rule fires within 16 min of trigger condition becoming true.</td></tr>
+      <tr><td><strong>8</strong></td><td>Aug 3–9</td><td>Notes · quick replies · business hours · analytics · <strong>feature freeze</strong></td><td>All 22 V1 features check off.</td></tr>
+      <tr><td><strong>9</strong></td><td>Aug 10–16</td><td>Stripe billing · plan gating · trial · demo data</td><td>Starter <code>curl POST</code> chatbot → 402 Plan Gate response.</td></tr>
+      <tr><td><strong>10</strong></td><td>Aug 17–23</td><td>Stabilize · security checklist · marketing site · code hygiene</td><td>Founders use the product 3 days, zero P0/P1 in Sentry.</td></tr>
+      <tr><td><strong>11</strong></td><td>Aug 24–31</td><td>Private-beta dry-run · final polish · GDPR export · launch checklist</td><td>1 friendly business onboards solo in &lt;20 min.</td></tr>
+      <tr style="background:linear-gradient(135deg, rgba(245,158,11,0.08), rgba(236,72,153,0.06));"><td><strong>🚀</strong></td><td><strong>Sep 1</strong></td><td><strong>Private Beta Launch</strong></td><td>5 design partners onboarded by founders in person.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ANTI-PATTERNS -->
+<section id="anti">
+  <h2><span class="num">🛑</span>Anti-patterns — what Claude Code will refuse to do</h2>
+  <p class="section-sub">§11 in <code>CLAUDE.md</code> lists 9 scope-discipline rules. Each is paired with the exact refusal Claude Code will give.</p>
+
+  <table>
+    <thead><tr><th>Ask</th><th>Refuse with</th></tr></thead>
+    <tbody>
+      <tr><td>"Add a small extra feature not in §5 MVP table"</td><td>"That's V1.1 — adding to backlog."</td></tr>
+      <tr><td>"Make the chatbot generate its own replies"</td><td>"The fixed-reply mechanic is sacred — it's our differentiator."</td></tr>
+      <tr><td>"Skip the channel-connector interface for this one channel"</td><td>"Every channel goes through the connector."</td></tr>
+      <tr><td>"Add a new dependency without justification"</td><td>"We freeze the dep list. Use what we already have."</td></tr>
+      <tr><td>"Roll our own auth / billing / webhook signing"</td><td>"Use Clerk / Stripe / their libraries respectively."</td></tr>
+      <tr><td>"Skip writing the test for this PR"</td><td>"DoD requires tests. Write a quick one."</td></tr>
+      <tr><td>"Comment out the Postgres RLS check 'just for this query'"</td><td>"RLS stays on. Refactor the query to be tenant-aware."</td></tr>
+      <tr><td>"Hardcode a workspace ID for testing in production code"</td><td>"Use the test workspace seeded in <code>prisma/seed.ts</code>."</td></tr>
+      <tr><td>"Bypass plan gating to demo a feature for one customer"</td><td>"Run a manual upgrade on their workspace instead."</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section id="next">
+  <h2><span class="num">🚀</span>What happens after you paste this prompt</h2>
+
+  <div class="callout green">
+    <strong>Day 1 (Jun 15 morning).</strong> Belal saves <code>CLAUDE.md</code> to a fresh GitHub repo. Files Meta + TikTok approvals. Opens Anthropic, Vercel, Neon, Clerk, Resend accounts. Pastes <em>"Implement Week 1 deliverables per §9 of CLAUDE.md"</em> into Claude Code. Reviews the PR Claude Code produces by end of day.
+  </div>
+  <div class="callout">
+    <strong>Day 2–7.</strong> Claude Code progresses through Week 1: bootstrap repo, install deps, apply schema, enable RLS, wire Clerk. Belal reviews every diff before merging. By end of Week 1, the Week 1 acceptance criteria are all green.
+  </div>
+  <div class="callout warn">
+    <strong>Every Friday.</strong> Belal runs the week's Acceptance Criteria. If any fail → don't start the next week's prompt; close gaps first. If all pass → tag the release (<code>v0.W1</code>), commit progress to <code>CLAUDE.md</code> changelog, start Week N+1.
+  </div>
+  <div class="callout green">
+    <strong>Sep 1.</strong> Private beta launches with 5 design partners. Belal + Mahmoud onboard them in person over the first 2 weeks. Sentry stays clean. Mini CRM populates. First bookings land. Case-study numbers start accruing.
+  </div>
+  <div class="callout green">
+    <strong>Oct 1.</strong> Public launch. Mahmoud goes loud with the case-study numbers from Sep. The plan becomes a real product with real customers. The 4 pillars are intact, the scope held, the code is reviewable, the schema is sound. <strong>Mission accomplished.</strong>
+  </div>
+</section>
+
+<footer>
+  Claude Code Implementation Prompt · Authored alongside the strategic review · Locked Jun 14, 2026
+  <br/><br/>
+  <a class="back-link" href="index.html">← Main plan</a>
+  <a class="back-link" href="v1-build.html">🛠️ Build playbook</a>
+  <a class="back-link" href="strategic-review.html">🧠 Strategic review</a>
+  <a class="back-link" href="CLAUDE.md" download="CLAUDE.md">⬇️ Download CLAUDE.md</a>
+</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = 'code-' + btn.dataset.clip;
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = '✓ Copied';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.textContent = orig;
+        }, 1500);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
