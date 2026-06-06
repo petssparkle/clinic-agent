@@ -516,7 +516,7 @@ export async function classifyIntent(
     max_tokens: 64,
     system: `You classify customer DMs into ONE of these intents: ${intents}.
 Reply with ONLY the intent name. If none match clearly, reply HANDOFF.
-The customer's message may be in English or Arabic — handle both.`,
+The customer's message may be in any language — match the intent regardless of language.`,
     messages: [{ role: 'user', content: message }],
   });
   const intent = result.content[0].type === 'text'
@@ -539,7 +539,7 @@ The customer's message may be in English or Arabic — handle both.`,
       <ul class="clean">
         <li>Multi-step wizard: business name → vertical → working hours → services → tags → FAQ replies</li>
         <li>Server-validated with Zod, written straight into the DB</li>
-        <li>FAQ Library editor: list of intents, click to edit the reply (with EN + AR fields)</li>
+        <li>FAQ Library editor: list of intents, click to edit the reply (with multi-language fields — business picks which languages it supports)</li>
         <li>Vertical presets — pre-fill the FAQ library with starter replies per vertical (clinic / retail / education / auto / real-estate)</li>
       </ul>
       <pre><code>// lib/validation/setup.ts
@@ -560,9 +560,10 @@ export const SetupSchema = z.object({
   })),
   faqs: z.array(z.object({
     intent: z.string(),
-    replyEn: z.string(),
-    replyAr: z.string().optional(),
+    // language-keyed replies, e.g. { en: "...", es: "...", pt: "..." }
+    replies: z.record(z.string(), z.string()),
   })),
+  primaryLanguage: z.string().default('en'),  // BCP-47 code
 });</code></pre>
       <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> Mahmoud (a non-engineer) can complete the wizard for a fake clinic in under 60 minutes without help.</p>
     </div>
@@ -661,8 +662,36 @@ export async function GET(req: NextRequest) {
     </div>
   </div>
 
+  <!-- WEEK 11 -->
+  <div class="week-row launch">
+    <div class="when">Aug 24–31<br/>Week 11</div>
+    <div class="what">
+      <strong>Soft pre-launch — dry-run with friendly accounts + final polish</strong>
+      <ul class="clean">
+        <li>Onboard 1–2 friendly businesses (not paying yet) — run them through the Setup Wizard end-to-end and watch where they stumble</li>
+        <li>Fix every UX papercut surfaced in the dry-run (no new features — only the friction we observed)</li>
+        <li>Lock the README + ops runbook (rotate Meta token · re-issue Anthropic key · roll DB credentials · how to manually retry a stuck webhook)</li>
+        <li>Final cron sanity check — reminders / rules / slot generator all firing on schedule for &gt; 48h with no errors in Sentry</li>
+        <li>Run the launch checklist (§07). Anything ☐ that isn't ☑ on Aug 31 → push the launch one more week, don't ship broken</li>
+      </ul>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> every box in §07 is checked · 48h of clean cron runs · 1 friendly business successfully ran a full Setup Wizard → chat → booking flow on their own without help.</p>
+    </div>
+  </div>
+
+  <!-- LAUNCH -->
+  <div class="week-row launch">
+    <div class="when">🚀 Sep 1<br/>LAUNCH</div>
+    <div class="what">
+      <strong>V1 LIVE</strong>
+      <ul class="clean">
+        <li>App is live · trial open · pricing page published</li>
+        <li>Code-side, the build is done — GTM &amp; first-customer onboarding take over (see main plan §05)</li>
+      </ul>
+    </div>
+  </div>
+
   <div class="callout">
-    <strong>10 weeks total — Jun 15 → Aug 23.</strong> Buffer included. After Week 10 the codebase is stable enough to onboard a real customer. <em>What happens after that — first design partners, onboarding, GTM — is covered in the main plan, not here.</em>
+    <strong>~11 weeks total — Jun 15 → Sep 1.</strong> Buffer included. After Week 11 the codebase is stable enough to onboard real customers. <em>What happens after that — first design partners, onboarding, GTM — is covered in the main plan, not here.</em>
   </div>
 </section>
 
@@ -742,7 +771,7 @@ export async function GET(req: NextRequest) {
 <!-- §07 LAUNCH CHECKLIST -->
 <section id="launch">
   <h2><span class="num">07</span>Code-ready checklist — must all be true to call V1 "done"</h2>
-  <p class="section-sub">Engineering gates only. Use this at end of Week 10. Anything unchecked = ship is not real yet. <em>Customer onboarding, marketing site, and partner outreach are tracked in the main plan, not here.</em></p>
+  <p class="section-sub">Engineering gates only. Walk this list at end of Week 11 (Aug 31). Any unchecked box = ship is not real yet — push launch by a week, don't ship broken. <em>Customer onboarding, marketing site, and partner outreach are tracked in the main plan, not here.</em></p>
 
   <div class="card">
     <h4 style="color:var(--brand);">Product (the 4 pillars)</h4>
@@ -789,7 +818,7 @@ export async function GET(req: NextRequest) {
 </section>
 
 <footer>
-  V1 Build Playbook · Engineering only · Kickoff Jun 15, 2026 · 10-week sprint · Built with Claude + Claude Code
+  V1 Build Playbook · Engineering only · Kickoff Jun 15 → Launch Sep 1, 2026 · ~11-week sprint · Built with Claude + Claude Code
   <br/><br/>
   <a class="back-link" href="index.html" style="margin-top:8px;">← Back to full plan</a>
 </footer>
