@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Co-Founder Strategic Review · V1 Build</title>
+<style>
+  :root {
+    --panel: #ffffff;
+    --panel-soft: #f6f8fc;
+    --border: #e6e8ef;
+    --text: #0f172a;
+    --muted: #475569;
+    --brand: #0d9488;
+    --brand-2: #14b8a6;
+    --accent: #ec4899;
+    --accent-2: #f59e0b;
+    --warn: #ef4444;
+    --green: #22c55e;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: var(--panel-soft); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.55; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 22px 60px; }
+
+  .back-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: var(--muted); font-size: 12.5px; font-weight: 600; margin: 0 8px 18px 0; transition: all 0.15s; }
+  .back-link:hover { background: var(--brand); color: white; border-color: var(--brand); transform: translateY(-1px); }
+
+  .hero {
+    background: radial-gradient(900px 500px at 10% 0%, rgba(20,184,166,0.28), transparent 60%),
+                radial-gradient(700px 400px at 100% 20%, rgba(236,72,153,0.18), transparent 60%),
+                linear-gradient(135deg, #0b1020 0%, #134e4a 60%, #0d9488 120%);
+    color: white;
+    border-radius: 20px;
+    padding: 38px 32px;
+    box-shadow: var(--shadow);
+  }
+  .hero .pill { display: inline-block; padding: 5px 11px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; color: #e2e8f0; }
+  .hero h1 { font-size: 32px; line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .hero h1 span { background: linear-gradient(90deg, #5eead4, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lead { font-size: 15px; max-width: 820px; color: #cbd5e1; margin: 0 0 4px; }
+
+  section { margin-top: 36px; padding-top: 4px; }
+  section + section { border-top: 1px solid rgba(13, 148, 136, 0.10); padding-top: 28px; margin-top: 28px; }
+  h2 { font-size: 22px; margin: 0 0 8px; letter-spacing: -0.015em; color: var(--text); display: flex; align-items: center; gap: 12px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: white; border-radius: 9px; font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+  h3 { font-size: 16px; margin: 18px 0 6px; color: var(--text); font-weight: 700; }
+  h4 { font-size: 12.5px; margin: 12px 0 6px; color: var(--brand); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; }
+  p { color: var(--muted); margin: 6px 0; font-size: 14px; }
+  .section-sub { color: var(--muted); font-size: 14px; margin: 0 0 16px; max-width: 920px; }
+
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); margin-top: 12px; }
+  .card > *:first-child { margin-top: 0; }
+  .card > *:last-child { margin-bottom: 0; }
+  ul.clean { padding-left: 18px; margin: 6px 0; }
+  ul.clean li { color: var(--muted); font-size: 13.5px; line-height: 1.55; margin: 4px 0; }
+  ul.clean li strong { color: var(--text); }
+  code { background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.18); padding: 1px 6px; border-radius: 5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--brand); }
+  pre { background: #0b1020; color: #e2e8f0; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; line-height: 1.5; }
+  pre code { background: transparent; border: 0; padding: 0; color: inherit; font-size: inherit; }
+
+  .callout { background: linear-gradient(135deg, rgba(13,148,136,0.06), rgba(20,184,166,0.10)); border: 1px solid rgba(13,148,136,0.18); border-left: 4px solid var(--brand); border-radius: 10px; padding: 14px 16px; font-size: 13.5px; color: var(--text); margin: 14px 0; }
+  .callout strong { color: var(--text); }
+  .callout.warn { background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(236,72,153,0.06)); border-color: rgba(245,158,11,0.30); border-left-color: var(--accent-2); }
+  .callout.danger { background: linear-gradient(135deg, rgba(239,68,68,0.06), rgba(236,72,153,0.06)); border-color: rgba(239,68,68,0.22); border-left-color: var(--warn); }
+  .callout.green { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(13,148,136,0.10)); border-color: rgba(34,197,94,0.20); border-left-color: var(--green); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+  table th, table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table th { background: var(--panel-soft); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+
+  .pri { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; }
+  .pri-p0 { background: rgba(239,68,68,0.12); color: var(--warn); }
+  .pri-p1 { background: rgba(245,158,11,0.14); color: #b45309; }
+  .pri-p2 { background: rgba(13,148,136,0.12); color: var(--brand); }
+  .pri-p3 { background: rgba(148,163,184,0.16); color: #64748b; }
+  .ver { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 10.5px; font-weight: 700; }
+  .ver-v1 { background: rgba(34,197,94,0.12); color: #166534; }
+  .ver-v11 { background: rgba(13,148,136,0.12); color: var(--brand); }
+  .ver-v2 { background: rgba(148,163,184,0.16); color: #64748b; }
+
+  .week-row { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; margin: 10px 0; background: var(--panel); border: 1px solid var(--border); border-left: 4px solid var(--brand); border-radius: 10px; }
+  .week-row .when { min-width: 110px; font-size: 11.5px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.05em; padding-top: 2px; }
+  .week-row .what { flex: 1; font-size: 13.5px; }
+  .week-row .what strong { color: var(--text); }
+  .week-row.ai { border-left-color: var(--accent); }
+  .week-row.ai .when { color: var(--accent); }
+  .week-row.launch { border-left-color: var(--accent-2); }
+  .week-row.launch .when { color: #b45309; }
+
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div>
+  <a class="back-link" href="index.html">← Main plan</a>
+  <a class="back-link" href="v1-build.html">🛠️ Build playbook</a>
+</div>
+
+<div class="hero">
+  <span class="pill">Co-Founder Strategic Review · Pre-build · Locked Jun 14</span>
+  <h1>Honest assessment of <span>everything we've built so far</span> — and what to change before Jun 15.</h1>
+  <p class="lead">10 deliverables in one doc: current understanding, critical review, competitor intelligence, MVP definition, UX blueprint, design recs, engineering review, schema review, implementation masterplan, and the 10 founder-level calls I'd make. Opinionated, direct, scoped. Nothing here breaks the four pillars — but quite a bit upgrades the execution.</p>
+</div>
+
+<!-- §01 -->
+<section id="understanding">
+  <h2><span class="num">01</span>Current Product Understanding</h2>
+  <p class="section-sub">If a new founding engineer joined tomorrow, this is what they need to know.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Product vision</h4>
+      <p style="font-size:13.5px;">An omnichannel customer-conversation platform for SMBs globally. The product mirrors Respond.io's three-pillar frame (Capture · Convert · Retain) but is built simpler, cheaper, and with a real <strong>built-in booking calendar</strong> that Respond.io / Trengo / Omnichat all lack as a first-class feature, and that Kommo only ships as Beta.</p>
+      <p style="font-size:13.5px;">Sold via four headline pillars: <strong>Unified Inbox · AI Chatbot · Calendar &amp; Booking · Mini CRM</strong>. The defining mechanic of the AI chatbot is "fixed-reply" — the bot can only send pre-approved replies the business wrote itself. No hallucinations, no off-script.</p>
+    </div>
+    <div class="card">
+      <h4>Business model</h4>
+      <ul class="clean">
+        <li><strong>SaaS subscription, 4 tiers, true monthly billing</strong> (not Kommo's 6-month minimum)</li>
+        <li>Starter $15 (Inbox + CRM only) · Growth $59 (+ AI Chatbot + Calendar) · Agency $199 (+ scale, +10 seats) · Enterprise Custom (+ white-label resale)</li>
+        <li>14-day free trial, no card required</li>
+        <li>Annual billing −20%</li>
+        <li>Contact-pack top-ups for over-quota months</li>
+        <li><strong>Per-workspace, not per-user</strong> (Kommo / Trengo / ControlHippo all charge per-seat — our biggest pricing wedge)</li>
+        <li>WhatsApp messaging fees go customer-direct to Meta (BYO WABA model); we pay $0</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Target users</h4>
+      <p style="font-size:13.5px;"><strong>SMBs with DM volume + a booking workflow.</strong> Vertical-agnostic, but the first 20 customers will mostly come from the founders' MENA warm network: aesthetic/dental clinics, retail, tutoring, auto-service, real-estate brokers, photographers, travel agencies.</p>
+      <p style="font-size:13.5px;"><strong>The ICP buyer:</strong> business owner, age 28–55, runs 50–500 DMs/week, has 1–10 employees, currently uses WhatsApp + Instagram personally / via a receptionist / via a $25–$120/user/mo tool they outgrew. <strong>Triggers:</strong> after-hours inquiries going cold, 2nd receptionist hire, ad spend leaking to slow replies, no-show rate climbing.</p>
+    </div>
+    <div class="card">
+      <h4>Core workflows (Day 1)</h4>
+      <ul class="clean">
+        <li><strong>Capture:</strong> customer DMs on WA / IG / Messenger → webhook ingests → Contact + Conversation auto-created in Mini CRM</li>
+        <li><strong>Convert:</strong> Claude classifies intent → matches Fixed-Reply Library → sends back via same channel → if no match, hands off to human</li>
+        <li><strong>Book:</strong> "I want an appointment" intent → bot pulls free slots from Calendar → customer picks → Appointment created → reminder cron sends 24h pre + email to owner</li>
+        <li><strong>Retain:</strong> Custom Follow-Up Rules cron fires win-back replies for stalled conversations</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Current architecture</h4>
+      <ul class="clean">
+        <li><strong>Frontend / API:</strong> Next.js 14 (App Router) + TypeScript + Tailwind + shadcn/ui · single repo · Vercel</li>
+        <li><strong>Auth:</strong> Clerk (multi-tenant via Workspace model)</li>
+        <li><strong>DB:</strong> Postgres on Neon, accessed via Prisma</li>
+        <li><strong>AI:</strong> Anthropic Claude API (intent classification, future AI Reply Wand)</li>
+        <li><strong>Channels:</strong> Meta Cloud API (WhatsApp), Instagram Graph API, Messenger Platform — TikTok deferred to V1.1 per recommendation §02 below</li>
+        <li><strong>Email:</strong> Resend (transactional + reminders)</li>
+        <li><strong>Jobs:</strong> Vercel Cron for scheduled work; Inngest / Trigger.dev still to be picked</li>
+        <li><strong>Billing:</strong> Stripe + Tap (Gulf) — live mid-July post-incorporation</li>
+        <li><strong>Observability:</strong> PostHog (product analytics) + Sentry (errors)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Implementation progress</h4>
+      <p style="font-size:13.5px;"><strong>~0% code, 100% planning.</strong> Today is pre-kickoff. Build starts Jun 15, target Sep 1 launch. The current asset is two docs:</p>
+      <ul class="clean">
+        <li><strong>Main plan</strong> (index.html) — business plan, competitive landscape, pricing, acquisition, financials, equity</li>
+        <li><strong>V1 Build Playbook</strong> (v1-build.html) — engineering-only: tech stack, schema, 11-week sprint, code snippets per sprint</li>
+      </ul>
+      <p style="font-size:13.5px; margin-top:8px;">Validation phase is closed (week-1 competitor trials → joint read-out done; need-validation marked ✓). Next concrete deliverable: Belal files Meta approvals + bootstraps the Next.js repo on Jun 15.</p>
+    </div>
+  </div>
+</section>
+
+<!-- §02 -->
+<section id="critical">
+  <h2><span class="num">02</span>Critical Review</h2>
+  <p class="section-sub">What I'd push back on if I were on the founding team. Honest, not exhaustive. Sorted by severity.</p>
+
+  <h3>Critical — fix before Jun 15</h3>
+  <div class="card" style="border-left:4px solid var(--warn);">
+    <ul class="clean">
+      <li><strong>C1 · Drop TikTok Business Messaging from V1.</strong> It's the newest and least documented of the 4 channels, the API quirks will eat 3–5 dev-days, and the marginal user value over WA + IG + Messenger is small for a Sep-1 ship. Move to V1.1. <em>Channel-connector abstraction makes this a one-line add later.</em></li>
+      <li><strong>C2 · Define "billable contact" precisely.</strong> The contact-count metric drives the entire pricing tier ladder ($15 = 500, $59 = 2,000, $199 = 5,000). Right now it's vague. Recommended definition: <em>"A billable contact = a unique person whom the workspace has sent at least one outbound message to during the current calendar month."</em> Inbound-only contacts (people who DM'd you but you never replied to) don't count. This avoids penalizing customers for spam / wrong-number traffic.</li>
+      <li><strong>C3 · Setup Wizard is the single biggest churn risk.</strong> A blank FAQ Library kills the bot, kills the value, and the SMB owner uninstalls inside 7 days. Make <strong>vertical presets mandatory (not optional)</strong> — the wizard ships pre-filled with 12–15 starter replies per vertical (clinic / retail / education / auto / real-estate / pro-services / travel) which the owner only edits. Target self-serve setup time: <strong>under 20 minutes</strong>, not 60.</li>
+      <li><strong>C4 · Multi-tenancy needs Postgres Row-Level Security, not just middleware filtering.</strong> Belal will move fast with Claude Code. One forgotten <code>where workspaceId = ...</code> = a tenant-leak bug. RLS at the DB level is defense-in-depth and cheap to add at schema-init.</li>
+      <li><strong>C5 · No real-time layer in the inbox.</strong> If a new DM lands and the agent's UI doesn't update without F5, the inbox feels broken vs Respond.io / Kommo. <strong>V1 minimum:</strong> SWR polling every 5–10s on the open conversation. V1.1 upgrade: WebSocket via Pusher / Ably / Supabase Realtime.</li>
+      <li><strong>C6 · Webhook idempotency is missing from the schema.</strong> Meta retries 5xx responses every few seconds. Without a <code>WebhookDelivery</code> table keyed by <code>(channel, externalId) UNIQUE</code>, a slow DB write = the same inbound message gets ingested 3× = duplicate messages in the UI = embarrassing demos.</li>
+    </ul>
+  </div>
+
+  <h3>Important — design Jun 15–30, ship by Week 6</h3>
+  <div class="card" style="border-left:4px solid var(--accent-2);">
+    <ul class="clean">
+      <li><strong>I1 · Plan-feature gating must be server-enforced.</strong> Currently implied UI-only. Without server-side gating, a curl request to the chatbot endpoint from a Starter account = free Growth-tier features. Define a <code>PlanFeatures</code> matrix as code and enforce in middleware on every route.</li>
+      <li><strong>I2 · Demo data + guided first-run experience.</strong> A brand-new workspace currently lands on an empty Inbox. That's the worst first-impression in SaaS. Seed a guided demo conversation that walks them through inbox → reply → tag → book in 90 seconds.</li>
+      <li><strong>I3 · Calendar needs timezone handling from Day 1.</strong> Schema must store <code>BookingSlot.startAt</code> in UTC + Workspace.timezone (IANA). Otherwise a Cairo clinic + a Toronto patient = chaos. <em>This is 30 minutes of work upfront and a week of pain to retrofit.</em></li>
+      <li><strong>I4 · Outbound message queue + retry.</strong> WA send fails happen (rate limits, transient Meta errors). Without a retry queue, a missed reply = a lost lead. Use Inngest / Trigger.dev for outbound queueing — pick one before Week 2.</li>
+      <li><strong>I5 · File / image attachment storage missing.</strong> Customers send images on WA constantly (before/after photos for clinics, product pics for retail). No mention of R2 / S3 + signed URLs. Add Cloudflare R2 in W3 (free egress vs S3).</li>
+      <li><strong>I6 · GDPR + data retention.</strong> Personal data flows from Day 1. Need: privacy policy live before launch, DPA template, per-workspace data-export endpoint, delete-on-request workflow, retention-policy config (default: 18 months for messages, configurable per workspace). Compliance is cheap pre-launch and expensive after.</li>
+      <li><strong>I7 · AI cost ceiling per workspace.</strong> Claude classifies every inbound. ~$0.005 per call × 2,000 inbounds = $10/mo Claude cost on a $59/mo plan = 17% gross-margin hit. Plan a cheaper first-pass classifier (regex / embedding) and only fall back to Claude on ambiguous messages. Caps margins at ~$3–4/mo.</li>
+      <li><strong>I8 · Setup Wizard should generate vertical landing pages.</strong> Mahmoud needs vertical SEO pages anyway. Have the Setup Wizard's vertical presets pre-write the marketing-site copy too. Reuses content, halves Mahmoud's load.</li>
+      <li><strong>I9 · Sep 1 "launch" should be a private beta, not a public one.</strong> 2 founders + 5 design partners is not a public launch — it's a controlled rollout. <strong>Real public launch should be Oct 1</strong> after 30 days of design-partner feedback. This is a positioning call, not a date slip: it lets Mahmoud build louder PR around Oct 1 with case-study numbers in hand.</li>
+    </ul>
+  </div>
+
+  <h3>Nice-to-have — V1.1 candidates</h3>
+  <div class="card" style="border-left:4px solid var(--brand);">
+    <ul class="clean">
+      <li><strong>N1 · Slack/Discord integration for team mentions.</strong> Notify the team channel when an inbox conversation needs human attention. Saves switching apps.</li>
+      <li><strong>N2 · Public-link booking page.</strong> Beyond the bot-initiated flow, give each workspace a <code>/book/[slug]</code> page customers can hit directly (like Calendly). Trivial off the existing slot generator.</li>
+      <li><strong>N3 · Saved searches / smart inbox views.</strong> "Unread VIP" / "No-reply 24h" filters. Power-user feature.</li>
+      <li><strong>N4 · Setup Wizard import.</strong> Let businesses paste their existing FAQ doc / Google Doc / website FAQ → AI auto-extracts the intents + replies + builds the library in one click. Big wedge.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- §03 -->
+<section id="competitors">
+  <h2><span class="num">03</span>Competitor Intelligence — what to copy, what to skip</h2>
+  <p class="section-sub">From the Week-1 trials + screenshots reviewed. Honest scorecard of what each rival does <em>better than us</em> and which patterns to steal.</p>
+
+  <table>
+    <thead><tr><th>Pattern</th><th>Best at it</th><th>What to copy in V1</th><th>What to skip</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Unified inbox UX</strong></td>
+        <td>Front · Intercom</td>
+        <td>Three-pane layout (filters · conversation list · open thread + right panel for contact card). Keyboard shortcuts (<code>e</code> archive, <code>a</code> assign, <code>n</code> note). Channel badges per message.</td>
+        <td>Front's deep collaboration features (collision detection, shared drafts) — V2.</td>
+      </tr>
+      <tr>
+        <td><strong>Sales pipeline / Kanban CRM</strong></td>
+        <td>Kommo</td>
+        <td>One simple "Pipeline" view in V1 (default stages: New · Engaged · Booked · Won · Lost). Drag-and-drop reorder. <em>One pipeline only in V1; multi-pipeline is V2 (see Kommo gap).</em></td>
+        <td>Kommo's complex deal-card customization, formula fields, custom pipeline stages per workspace.</td>
+      </tr>
+      <tr>
+        <td><strong>AI chatbot builder</strong></td>
+        <td>ManyChat (visual flows) · Respond.io (AI Agents)</td>
+        <td>NOTHING. Our fixed-reply mechanic is the wedge. Don't copy their visual builders — keep the experience: "fill the FAQ Library, the bot does the rest."</td>
+        <td>Drag-and-drop flow builders, branching logic UIs, conditional trees — V2 or never.</td>
+      </tr>
+      <tr>
+        <td><strong>Setup / onboarding</strong></td>
+        <td>Linear · Vercel · Stripe</td>
+        <td>Linear's progressive disclosure (one decision per screen). Vercel's "deploy in 60 sec" energy. <strong>Setup Wizard target: under 20 min self-serve.</strong> Vertical-preset autopopulate.</td>
+        <td>HubSpot-style "30-form-field" onboarding. Multi-step setup that asks for info we don't immediately need.</td>
+      </tr>
+      <tr>
+        <td><strong>Booking flow (in-chat)</strong></td>
+        <td>HighLevel · Calendly</td>
+        <td>WA interactive list with next 5 slots → tap to confirm. Owner gets email + appointment in calendar. Reminders are configurable per workspace.</td>
+        <td>Calendly's deep round-robin team scheduling, paid bookings, multi-host events — V2.</td>
+      </tr>
+      <tr>
+        <td><strong>Analytics dashboard</strong></td>
+        <td>Linear · Stripe</td>
+        <td>6 big-number cards above the fold. One chart (messages over time). Skip everything else in V1. Clean &gt; rich.</td>
+        <td>HubSpot-style 50-metric dashboards. Custom report builders. Cohort analysis — V2.</td>
+      </tr>
+      <tr>
+        <td><strong>Contact / CRM record</strong></td>
+        <td>Intercom · HubSpot</td>
+        <td>Single page: top header (name, channel handles, status, tags) · left tab nav (Timeline · Notes · Appointments) · main pane shows selected tab. Pure unified history.</td>
+        <td>Intercom's 47-section right rail with custom attributes — V2.</td>
+      </tr>
+      <tr>
+        <td><strong>Pricing page</strong></td>
+        <td>Respond.io · Linear · Vercel</td>
+        <td>Already mirrored. Plan card design + monthly/annual toggle + per-mo display on annual = copied. Keep clean.</td>
+        <td>Per-seat sliders, contact-count sliders that make the price calculation a math problem.</td>
+      </tr>
+      <tr>
+        <td><strong>Empty states / first-run</strong></td>
+        <td>Linear · Notion</td>
+        <td>Every empty state shows a 1-sentence "what happens here" + a single CTA. Pre-seed a guided demo conversation in the inbox so it's never truly empty.</td>
+        <td>Generic "No data" illustrations with no path forward.</td>
+      </tr>
+      <tr>
+        <td><strong>Keyboard-driven UX</strong></td>
+        <td>Linear · Superhuman</td>
+        <td>Command-K palette in V1.1 (<code>cmd+k</code> → "open contact", "send reply", "create rule"). V1 has shortcut hotkeys only.</td>
+        <td>Full Vim mode. We're not building for power users only.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- §04 -->
+<section id="blueprint">
+  <h2><span class="num">04</span>Best-in-Class Product Blueprint</h2>
+  <p class="section-sub">If we get these 7 things right, the product will feel comparable to elite SaaS.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>1 · Setup Wizard is the hero screen</h4>
+      <p style="font-size:13.5px;">5 steps · &lt; 20 min · vertical preset autoload · live preview of how the bot will reply at each step · "skip to default" on every screen. <strong>Outcome: user is live before they get bored.</strong></p>
+    </div>
+    <div class="card">
+      <h4>2 · Inbox feels live</h4>
+      <p style="font-size:13.5px;">New message lands → list updates without refresh · open thread auto-scrolls · soft "ping" sound for new messages in unattended conversations. Polling-based in V1, WebSocket V1.1. <strong>Outcome: feels like Intercom, not Gmail.</strong></p>
+    </div>
+    <div class="card">
+      <h4>3 · The Contact record is a real CRM record</h4>
+      <p style="font-size:13.5px;">All channels merged. Full timeline (messages + bookings + tag changes + rule firings). Editable tags inline. Private notes inline. Status changeable in two clicks. <strong>Outcome: customer support reps don't need a second tool.</strong></p>
+    </div>
+    <div class="card">
+      <h4>4 · The bot has personality</h4>
+      <p style="font-size:13.5px;">Each workspace defines an AI persona name (e.g. "Sara — your AI receptionist"). Bot identifies itself in first replies. Owner can configure "AI is replying / Human is replying" badge visibility. <strong>Outcome: customers don't feel tricked.</strong></p>
+    </div>
+    <div class="card">
+      <h4>5 · Booking is one tap</h4>
+      <p style="font-size:13.5px;">Bot sends an interactive-list message (WA / IG native widget). Customer taps a slot. That's it. Confirmation auto-sent. Owner gets email. No extra clicks, no extra forms.</p>
+    </div>
+    <div class="card">
+      <h4>6 · The dashboard answers one question fast</h4>
+      <p style="font-size:13.5px;">"Is the AI making me money this week?" 6 cards above the fold: messages handled, bookings made, conversion rate, response time avg, handoffs, top-asked intent. Date-range toggle. No clutter.</p>
+    </div>
+    <div class="card" style="grid-column: 1 / -1;">
+      <h4>7 · The brand promise — "Fix it once, runs forever"</h4>
+      <p style="font-size:13.5px;">The whole value-proposition lives in this line. Owner sets up the FAQ Library + Calendar once. The bot, the reminders, the CRM, the follow-up rules all run themselves. Setup-cost is paid upfront, value compounds for years. <strong>This is what makes us cheaper than a 2nd front-desk hire in months, not years.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- §05 MVP DEFINITION -->
+<section id="mvp">
+  <h2><span class="num">05</span>Final MVP Definition</h2>
+  <p class="section-sub">Every V1 feature with priority + version. <strong>P0 = must ship Sep 1 or no launch. P1 = required for V1 (ship Sep 1 if possible). P2 = useful, can slip to V1.1. P3 = V2.</strong></p>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>Feature</th><th>Pillar</th><th>Priority</th><th>Version</th><th>Why</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>WhatsApp Cloud API integration (send + receive)</td><td>Inbox</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>Without this, the product doesn't exist. WA is the mandatory channel.</td></tr>
+      <tr><td>2</td><td>Instagram Graph API integration</td><td>Inbox</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>~50% of warm-network prospects live on IG.</td></tr>
+      <tr><td>3</td><td>Messenger Platform integration</td><td>Inbox</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Same Meta App Review as IG. Marginal extra work.</td></tr>
+      <tr><td>4</td><td>TikTok Business Messaging</td><td>Inbox</td><td><span class="pri pri-p2">P2</span></td><td><span class="ver ver-v11">V1.1</span></td><td><strong>Defer.</strong> Highest API risk, marginal customer value.</td></tr>
+      <tr><td>5</td><td>Unified Inbox UI (3-pane)</td><td>Inbox</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>The defining screen of the product.</td></tr>
+      <tr><td>6</td><td>Real-time inbox updates (polling)</td><td>Inbox</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>SWR polling 5–10s. Cheap to ship, huge UX.</td></tr>
+      <tr><td>7</td><td>Channel-connector abstraction</td><td>Inbox</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>Without it, V1.1 channels become a rewrite.</td></tr>
+      <tr><td>8</td><td>Private notes on conversations</td><td>Inbox</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Table-stakes for any team-inbox demo.</td></tr>
+      <tr><td>9</td><td>Quick-reply templates (canned)</td><td>Inbox</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Saves 60–80% of agent typing.</td></tr>
+      <tr><td>10</td><td>Business-hours / OOO auto-reply</td><td>Inbox</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Asked in the first demo every time.</td></tr>
+      <tr><td>11</td><td>Fixed-Reply FAQ Library + editor</td><td>Chatbot</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>The brain of the bot.</td></tr>
+      <tr><td>12</td><td>Claude-API intent classifier</td><td>Chatbot</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>The engine.</td></tr>
+      <tr><td>13</td><td>Human handoff on no-match</td><td>Chatbot</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>Without this, customers get ghosted.</td></tr>
+      <tr><td>14</td><td>Setup Wizard with vertical presets</td><td>Chatbot</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>The conversion mechanism. Presets are mandatory, not optional.</td></tr>
+      <tr><td>15</td><td>Built-in booking calendar</td><td>Calendar</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>Our biggest competitive wedge.</td></tr>
+      <tr><td>16</td><td>Booking flow via interactive list</td><td>Calendar</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>Where the calendar's value shows.</td></tr>
+      <tr><td>17</td><td>Pre-appointment reminders cron</td><td>Calendar</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>The "we cut your no-shows" demo line.</td></tr>
+      <tr><td>18</td><td>Email-to-owner on new booking</td><td>Calendar</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Closes the loop for the business owner.</td></tr>
+      <tr><td>19</td><td>Mini CRM (Contact + auto-ingest)</td><td>CRM</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>The 4th pillar.</td></tr>
+      <tr><td>20</td><td>Customer tagging (manual + auto)</td><td>CRM</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>How owners segment the pipeline.</td></tr>
+      <tr><td>21</td><td>Custom Follow-Up Rules</td><td>CRM</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Win-back engine; differentiator.</td></tr>
+      <tr><td>22</td><td>Basic analytics dashboard (6 cards)</td><td>CRM</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>Proves the ROI to the buyer.</td></tr>
+      <tr><td>23</td><td>Optional vertical website template</td><td>—</td><td><span class="pri pri-p2">P2</span></td><td><span class="ver ver-v11">V1.1</span></td><td><strong>Defer.</strong> Adds a whole second product surface; not core to the 4 pillars. Mahmoud builds the marketing site separately in Framer.</td></tr>
+      <tr><td>24</td><td>Stripe billing + plan gating</td><td>—</td><td><span class="pri pri-p0">P0</span></td><td><span class="ver ver-v1">V1</span></td><td>No billing = no revenue.</td></tr>
+      <tr><td>25</td><td>14-day free trial logic</td><td>—</td><td><span class="pri pri-p1">P1</span></td><td><span class="ver ver-v1">V1</span></td><td>The acquisition mechanism.</td></tr>
+      <tr><td>26</td><td>Contact-pack top-up purchase</td><td>—</td><td><span class="pri pri-p2">P2</span></td><td><span class="ver ver-v11">V1.1</span></td><td>Defer 4 weeks post-launch. Unlikely to need before Customer #15.</td></tr>
+      <tr><td>27</td><td>White-label option (Agency tier)</td><td>—</td><td><span class="pri pri-p3">P3</span></td><td><span class="ver ver-v2">V2</span></td><td>Defer. No paying Agency customers yet.</td></tr>
+      <tr><td>28</td><td>White-label resale (Enterprise)</td><td>—</td><td><span class="pri pri-p3">P3</span></td><td><span class="ver ver-v2">V2</span></td><td>Defer.</td></tr>
+      <tr><td>29</td><td>AI Reply Wand (live-chat copilot)</td><td>Chatbot</td><td><span class="pri pri-p3">P3</span></td><td><span class="ver ver-v2">V2</span></td><td>Already scoped as V2.</td></tr>
+      <tr><td>30</td><td>Multiple sales pipelines</td><td>CRM</td><td><span class="pri pri-p3">P3</span></td><td><span class="ver ver-v2">V2</span></td><td>Already scoped as V2.</td></tr>
+      <tr><td>31</td><td>Broadcasts / campaigns</td><td>CRM</td><td><span class="pri pri-p3">P3</span></td><td><span class="ver ver-v2">V2</span></td><td>Already scoped as V2.</td></tr>
+      <tr><td>32</td><td>Mobile app</td><td>—</td><td><span class="pri pri-p3">P3</span></td><td><span class="ver ver-v2">V2</span></td><td>Web is responsive in V1. App in V2.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">
+    <strong>Net V1 scope (after my cuts):</strong> 22 features at P0/P1, all four pillars intact. <strong>3 deferrals</strong> (TikTok, Website templates, Contact-pack purchase) buy back ~6–8 dev-days of risk margin. Original count was 17 "must-haves" + 8 supporting = effectively the same scope, just honestly prioritized.
+  </div>
+</section>
+
+<!-- §06 UX BLUEPRINT -->
+<section id="ux">
+  <h2><span class="num">06</span>UX Blueprint</h2>
+  <p class="section-sub">The information architecture, the flows, the screens.</p>
+
+  <h3>Navigation architecture (left rail · single nav)</h3>
+  <div class="card">
+    <pre><code>┌─────────────────────────────┐
+│  [Brand logo / workspace ▼] │
+├─────────────────────────────┤
+│  📥  Inbox            (12) │  ← default screen
+│  📇  Contacts              │
+│  📅  Calendar              │
+│  🤖  Chatbot               │  ← FAQ Library + Setup Wizard
+│  ⚡  Automations           │  ← Custom Follow-Up Rules
+│  📊  Analytics             │
+├─────────────────────────────┤
+│  ⚙️   Settings             │
+│  💳  Billing &amp; usage      │
+│  👤  [User] avatar         │
+└─────────────────────────────┘</code></pre>
+    <p style="font-size:12.5px;">Six top-level destinations. Inbox is home. Settings + Billing + User are bottom-pinned.</p>
+  </div>
+
+  <h3>Core user flows</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Onboarding (Day 0)</h4>
+      <ol style="padding-left:20px; font-size:13px;">
+        <li>Clerk signup (email + password OR Google OAuth)</li>
+        <li>Workspace creation: business name + vertical dropdown</li>
+        <li>Plan select: Starter / Growth (Growth pre-selected) — 14-day trial, no card</li>
+        <li>Land on Setup Wizard (auto-opens, can't skip on first session)</li>
+        <li>Wizard completes → land on Inbox with seeded demo conversation</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4>Setup Wizard (5 steps · &lt;20 min target)</h4>
+      <ol style="padding-left:20px; font-size:13px;">
+        <li><strong>Business info</strong> — name, vertical (preset library autoloads), language(s)</li>
+        <li><strong>Working hours</strong> — weekly schedule editor (defaults to Mon–Sat 9–6)</li>
+        <li><strong>Services / catalog</strong> — 3–8 items with duration + price (preset autoloads)</li>
+        <li><strong>FAQ Library</strong> — review &amp; edit 12–15 preset replies (intent + reply text)</li>
+        <li><strong>Connect channels</strong> — WhatsApp first (mandatory), IG + Messenger optional</li>
+      </ol>
+      <p style="font-size:12px; color:var(--muted);">Each step has Skip and Use Defaults buttons. Progress bar across top.</p>
+    </div>
+    <div class="card">
+      <h4>Inbox flow (the workhorse)</h4>
+      <ol style="padding-left:20px; font-size:13px;">
+        <li>Left rail: filters (All · Unread · Assigned to me · Handoff · Closed)</li>
+        <li>Conversation list: 1 row per Contact (not per Conversation). Latest message preview, unread badge, channel icons stacked.</li>
+        <li>Open thread: message history, channel-aware bubbles, reply box.</li>
+        <li>Right panel (collapsible): contact card (name, channels, tags, status, notes button, link to Contacts page).</li>
+        <li>Top bar of thread: assign · tag · close · "Hand back to AI" toggle.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4>Booking flow (customer-facing)</h4>
+      <ol style="padding-left:20px; font-size:13px;">
+        <li>Customer DMs intent matching <code>BOOK</code></li>
+        <li>Bot replies with WA interactive list of next 5 free slots</li>
+        <li>Customer taps a slot</li>
+        <li>Bot confirms in-chat + sends confirmation message</li>
+        <li>Owner gets email · Appointment row created in DB · slot marked BOOKED</li>
+        <li>Cron sends reminder N hours before (configurable per workspace)</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Screen inventory (V1, 17 screens)</h3>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Auth:</strong> Signup · Login · Workspace creation · Plan select (4 screens)</li>
+      <li><strong>Setup Wizard:</strong> 5 wizard steps + completion summary (6 screens)</li>
+      <li><strong>App:</strong> Inbox · Contacts list · Contact detail · Calendar · Chatbot config · Automations · Analytics (7 screens)</li>
+      <li><strong>Settings:</strong> Workspace · Team · Channels · Billing (within settings, modal/sub-page)</li>
+      <li><strong>Empty + Error states</strong>: 6 distinct (no contacts yet, no appointments, no messages, no rules, no internet, 500)</li>
+    </ul>
+  </div>
+
+  <h3>Responsive strategy</h3>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Desktop (1280px+):</strong> three-pane inbox, full nav rail visible.</li>
+      <li><strong>Tablet (768–1279):</strong> two-pane inbox (list collapsed to icons), nav rail collapsed to icons.</li>
+      <li><strong>Mobile (&lt;768):</strong> single-pane stack. Conversation list → tap → thread (back arrow). Native mobile app is V2; the web app must feel <em>good</em> on mobile because owners check inbox from their phones constantly.</li>
+    </ul>
+  </div>
+
+  <h3>Loading + empty states (the often-missed details)</h3>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Skeleton loaders</strong> on the conversation list and contact detail (not spinners — skeletons feel faster)</li>
+      <li><strong>Empty inbox</strong> (Day 0): the demo conversation is already seeded so it's never truly empty</li>
+      <li><strong>Empty Contacts</strong>: CTA "Connect a channel" or "Add manual contact"</li>
+      <li><strong>Empty Calendar</strong>: CTA "Set working hours" linking back to Setup Wizard</li>
+      <li><strong>Empty Automations</strong>: 3 "Suggested rules" cards the owner can apply in 1 click</li>
+      <li><strong>Empty Analytics</strong>: explainer "Stats populate as messages flow in"</li>
+    </ul>
+  </div>
+</section>
+
+<!-- §07 DESIGN SYSTEM -->
+<section id="design">
+  <h2><span class="num">07</span>Design-System Recommendations</h2>
+  <p class="section-sub">The product must <em>feel</em> Linear / Vercel — not 2015 admin-dashboard.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Foundations</h4>
+      <ul class="clean">
+        <li><strong>Type:</strong> Inter (free) or Geist (Vercel's font, free). One typeface only.</li>
+        <li><strong>Type scale:</strong> 12 / 13 / 14 / 16 / 20 / 24 / 32. Six steps, no more.</li>
+        <li><strong>Spacing:</strong> 4-pt base scale (4, 8, 12, 16, 24, 32, 48, 64).</li>
+        <li><strong>Colors:</strong> brand teal + neutral grays + 3 semantic (success / warn / danger). 8 total + dark mode mirror.</li>
+        <li><strong>Radii:</strong> 8 / 12 / 16. No more.</li>
+        <li><strong>Shadows:</strong> 2 levels (subtle + medium). No drop-shadow soup.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Component library</h4>
+      <ul class="clean">
+        <li><strong>shadcn/ui</strong> as the base. Install only what we use; don't bloat.</li>
+        <li>Components needed in V1: Button (4 variants), Input, Textarea, Select, Dialog, Sheet, Dropdown, Tabs, Toast, Card, Avatar, Badge, Tag, Skeleton, EmptyState, DataTable, Tooltip.</li>
+        <li><strong>Custom V1 components</strong> (~7): ConversationListItem, MessageBubble, ChannelBadge, ContactCard, BookingSlotPicker, FaqEditor, RuleBuilder.</li>
+        <li><strong>Lucide-react</strong> for icons. One icon set only.</li>
+        <li><strong>Dark mode</strong> from Day 1 (Tailwind class-based). Not optional in 2026.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Motion</h4>
+      <ul class="clean">
+        <li>Use motion sparingly. 150–250ms ease-out on hover / active. Page transitions are off.</li>
+        <li>New-message "ping" sound: subtle, mutable per workspace, disabled by default for first 24h.</li>
+        <li>Confetti / celebrations on first booking received. One-time per workspace.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Voice &amp; tone</h4>
+      <ul class="clean">
+        <li>Empty-state copy is human, not corporate. "Nothing here yet — your first DM will land here" not "No data available."</li>
+        <li>Error messages are honest. "We couldn't send this — Meta returned 'too many requests'. Try again in 30s." Never "Something went wrong."</li>
+        <li>Notifications are useful, not loud. Default to email + in-app, not push.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- §08 ENGINEERING REVIEW -->
+<section id="engineering">
+  <h2><span class="num">08</span>Engineering Review</h2>
+  <p class="section-sub">Stack-by-stack honesty.</p>
+
+  <table>
+    <thead><tr><th>Layer</th><th>Choice</th><th>Verdict</th><th>Risk / Note</th></tr></thead>
+    <tbody>
+      <tr><td>Framework</td><td>Next.js 14 App Router + TS</td><td>✅ Correct</td><td>Server Components for inbox list (fast initial load). Client components only for the open thread + reply box.</td></tr>
+      <tr><td>Styling</td><td>Tailwind + shadcn/ui</td><td>✅ Correct</td><td>—</td></tr>
+      <tr><td>DB</td><td>Postgres on Neon</td><td>✅ Correct</td><td>Enable Neon branching for PR previews. Add backups (point-in-time).</td></tr>
+      <tr><td>ORM</td><td>Prisma</td><td>✅ Correct for velocity</td><td>Will hit query-plan limits at 50k+ contacts/workspace. V2 problem. Add a read-replica via Neon then.</td></tr>
+      <tr><td>Auth</td><td>Clerk</td><td>✅ Correct</td><td>Use Clerk Organizations for multi-tenancy (1 org = 1 workspace). Avoids hand-rolling membership tables.</td></tr>
+      <tr><td>AI</td><td>Claude API (Sonnet 4.6)</td><td>✅ Correct</td><td>Add LLM cost-cap per workspace; degrade to "human reply needed" when cap hit (don't burn margin).</td></tr>
+      <tr><td>Channels</td><td>Meta Cloud API + IG Graph + Messenger</td><td>✅ Correct</td><td><strong>Drop TikTok from V1.</strong> See C1.</td></tr>
+      <tr><td>Email</td><td>Resend</td><td>✅ Correct</td><td>Verify domain SPF/DKIM before Aug. React Email for templates.</td></tr>
+      <tr><td>Storage</td><td><em>Not yet chosen</em></td><td>⚠️ Missing</td><td><strong>Add Cloudflare R2.</strong> Free egress (vs S3's $$). For WA attachments + contact avatars.</td></tr>
+      <tr><td>Background jobs</td><td>Vercel Cron + ?</td><td>⚠️ Half-chosen</td><td><strong>Pick Inngest.</strong> Free tier covers V1 easily. Handles retries, queues, dead-letter for outbound message sends.</td></tr>
+      <tr><td>Real-time</td><td><em>Not yet planned</em></td><td>⚠️ Missing</td><td>V1: SWR polling (no extra infra). V1.1: Pusher Channels (free tier ~200k msg/day).</td></tr>
+      <tr><td>Rate limiting</td><td><em>Not yet planned</em></td><td>⚠️ Missing</td><td>Use Upstash Ratelimit (free tier). Apply to webhook endpoints and public booking pages.</td></tr>
+      <tr><td>Payments</td><td>Stripe + Tap (Gulf)</td><td>✅ Correct</td><td>Stripe webhook handler hardened against replay (signature verification + event idempotency).</td></tr>
+      <tr><td>Observability</td><td>PostHog + Sentry</td><td>✅ Correct</td><td>Add LogTail or BetterStack for app logs. Vercel logs alone aren't searchable enough.</td></tr>
+      <tr><td>Secrets</td><td><em>Not yet planned</em></td><td>⚠️ Missing</td><td>Use Vercel env vars + 1Password Connect for dev. Rotate Meta tokens quarterly.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Missing abstractions (build these in Week 1)</h3>
+  <div class="card">
+    <ul class="clean">
+      <li><code>ChannelConnector</code> — already planned. Confirmed correct.</li>
+      <li><code>RateLimitedClient</code> — wraps Meta API calls with token-bucket retry. Without this, Meta returns 429 = lost messages.</li>
+      <li><code>PlanFeatureGate</code> — middleware that checks the workspace's plan against a feature matrix. Returns 402 with upgrade link if blocked.</li>
+      <li><code>AuditLogger</code> — every mutation logged with actor, action, target. Cheap to add now, impossible to retrofit.</li>
+      <li><code>WebhookDeduper</code> — checks <code>WebhookDelivery</code> table before processing; skip if already processed.</li>
+      <li><code>WorkspaceContext</code> — every API route resolves <code>workspaceId</code> from Clerk Org, sets it on a request-scoped context, every Prisma call uses it. Pair with Postgres RLS as defense-in-depth.</li>
+    </ul>
+  </div>
+
+  <h3>Security checklist (pre-launch)</h3>
+  <div class="card">
+    <ul class="clean">
+      <li>☐ Postgres RLS enabled on all workspace-scoped tables</li>
+      <li>☐ Meta webhook signature verification (HMAC SHA-256)</li>
+      <li>☐ Stripe webhook signature verification</li>
+      <li>☐ CSRF protection on all mutation routes (Next.js App Router does this by default for Server Actions)</li>
+      <li>☐ Rate limit on auth endpoints (10/min/IP), webhook endpoints (100/min/source)</li>
+      <li>☐ All secrets in Vercel env, none in repo</li>
+      <li>☐ Sentry doesn't leak PII (filter <code>email</code>, <code>phone</code>, message bodies)</li>
+      <li>☐ Signed URLs for attachments (15-min expiry)</li>
+      <li>☐ DB access via service-role only — no anon access</li>
+    </ul>
+  </div>
+</section>
+
+<!-- §09 DATABASE REVIEW -->
+<section id="schema">
+  <h2><span class="num">09</span>Database Review</h2>
+  <p class="section-sub">The current schema is a good start. Here's what's missing and what to tighten.</p>
+
+  <h3>Tables to add (V1)</h3>
+  <pre><code>// 1. Membership (multi-user per workspace, roles)
+model WorkspaceMember {
+  id          String   @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        Role     @default(MEMBER)  // OWNER | ADMIN | MEMBER | VIEWER
+  invitedAt   DateTime @default(now())
+  acceptedAt  DateTime?
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@unique([workspaceId, userId])
+  @@index([workspaceId])
+  @@index([userId])
+}
+
+// 2. Subscription &amp; quota tracking
+model Subscription {
+  id                    String    @id @default(cuid())
+  workspaceId           String    @unique
+  stripeCustomerId      String?
+  stripeSubscriptionId  String?
+  plan                  Plan      @default(STARTER)
+  status                SubStatus @default(TRIALING)
+  trialEndsAt           DateTime?
+  currentPeriodStart    DateTime
+  currentPeriodEnd      DateTime
+  contactsLimit         Int
+  contactsUsed          Int       @default(0)  // billable contacts this period
+  extraContactPacks     Int       @default(0)  // total from top-ups
+  cancelAtPeriodEnd     Boolean   @default(false)
+  updatedAt             DateTime  @updatedAt
+  workspace             Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  @@index([stripeCustomerId])
+  @@index([currentPeriodEnd])
+}
+
+// 3. Audit log (compliance + debugging)
+model AuditLog {
+  id          String   @id @default(cuid())
+  workspaceId String
+  actorId     String?  // userId, or null for system
+  action      String   // "appointment.created", "rule.toggled", etc.
+  targetType  String?  // "Contact", "Appointment", ...
+  targetId    String?
+  metadata    Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+  @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([targetType, targetId])
+}
+
+// 4. Webhook idempotency &amp; replay log
+model WebhookDelivery {
+  id            String    @id @default(cuid())
+  channel       Channel
+  externalId    String    // Meta message id / TikTok event id
+  payload       Json
+  receivedAt    DateTime  @default(now())
+  processedAt   DateTime?
+  errorMessage  String?
+  retryCount    Int       @default(0)
+  @@unique([channel, externalId])  // idempotency key
+  @@index([processedAt])
+}
+
+// 5. Message attachments
+model MessageAttachment {
+  id          String   @id @default(cuid())
+  messageId   String
+  workspaceId String
+  url         String   // R2/S3 path
+  mimeType    String
+  filename    String?
+  sizeBytes   Int
+  createdAt   DateTime @default(now())
+  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  @@index([messageId])
+  @@index([workspaceId])
+}
+
+// 6. Channel link (one Contact ↔ many channel handles)
+model ChannelLink {
+  id          String   @id @default(cuid())
+  contactId   String
+  workspaceId String
+  channel     Channel
+  externalId  String   // phone for WA, IG handle for IG, etc.
+  primary     Boolean  @default(false)
+  contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  @@unique([workspaceId, channel, externalId])
+  @@index([contactId])
+}
+
+// 7. AI classification log (cost &amp; quality tracking)
+model ClassificationLog {
+  id           String   @id @default(cuid())
+  workspaceId  String
+  messageId    String
+  intent       String?
+  confidence   String   // "high" | "low"
+  promptTokens Int
+  outputTokens Int
+  cachedHit    Boolean  @default(false)  // for embedding-cache fallback
+  createdAt    DateTime @default(now())
+  @@index([workspaceId, createdAt])
+}</code></pre>
+
+  <h3>Indexes to add to existing tables</h3>
+  <div class="card">
+    <pre><code>// Message
+@@index([conversationId, sentAt(sort: Desc)])
+@@index([workspaceId, sentAt(sort: Desc)])
+
+// Conversation
+@@index([workspaceId, status, updatedAt(sort: Desc)])
+@@index([contactId, updatedAt(sort: Desc)])
+
+// Contact
+@@index([workspaceId, phone])
+@@index([workspaceId, status])
+@@index([workspaceId, updatedAt(sort: Desc)])
+
+// Appointment
+@@index([workspaceId, status])
+@@index([slotId])
+@@index([contactId])
+@@index([reminderSent, status])  // for reminder cron
+
+// BookingSlot
+@@index([workspaceId, status, startAt])
+
+// Rule
+@@index([workspaceId, enabled])
+
+// Tag
+@@index([workspaceId])</code></pre>
+  </div>
+
+  <h3>Multi-tenant safeguards</h3>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Postgres RLS</strong> on every workspace-scoped table. Policy: <code>USING (workspace_id = current_setting('app.workspace_id')::text)</code>. Set the setting from middleware on every request.</li>
+      <li><strong>Cascade deletes</strong> from Workspace down. If a workspace is deleted (rare but possible), everything goes with it.</li>
+      <li><strong>Soft delete on Contact</strong> (add <code>deletedAt</code>) — keeps audit history but excludes from queries via Prisma middleware.</li>
+      <li><strong>Workspace.timezone</strong> (IANA string, e.g. "Africa/Cairo"). Required field. Everything date-aware uses it.</li>
+    </ul>
+  </div>
+
+  <h3>Data retention strategy</h3>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Messages:</strong> 18 months default, configurable per workspace (down to 6 months for privacy-conscious customers; up to "forever" on Enterprise).</li>
+      <li><strong>Audit logs:</strong> 12 months. Older rows moved to cold storage or deleted.</li>
+      <li><strong>WebhookDeliveries:</strong> 30 days. After that, idempotency is moot.</li>
+      <li><strong>Deleted workspaces:</strong> 30-day soft-delete window for accidental delete; hard-delete cron after.</li>
+      <li><strong>Customer data export endpoint</strong> (<code>GET /api/workspace/export</code>): returns a zip of all Contacts + Conversations + Messages + Appointments as JSON. Required for GDPR.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- §10 MASTERPLAN -->
+<section id="masterplan">
+  <h2><span class="num">10</span>Implementation Masterplan (Improved)</h2>
+  <p class="section-sub">11-week sprint, Jun 15 → Sep 1. Improved from the V1 Build Playbook with the C/I findings from §02 folded in. Each row has explicit objectives, deliverables, acceptance criteria, and dependencies.</p>
+
+  <div class="week-row">
+    <div class="when">Jun 15–21<br/>Week 1</div>
+    <div class="what">
+      <strong>Foundations + Meta filings + schema lock</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> Filing → repo → schema → auth working end-to-end.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> All Meta + TikTok approvals submitted (Day 1). All dev accounts created. Next.js + TS + Tailwind + shadcn + Prisma + Clerk repo bootstrapped. Full schema (existing + 7 new tables from §09) migrated to Neon. Postgres RLS enabled. WorkspaceContext middleware working.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Sign up → workspace created → land on empty dashboard. ✅ DB schema matches §09 exactly. ✅ RLS proven via two-account test (User A can't query User B's data even with raw SQL).</li>
+        <li><strong>Testing:</strong> Manual signup smoke test + 1 Vitest covering RLS isolation.</li>
+        <li><strong>Risks:</strong> Meta approval delays — irrelevant for Week 1 since no API calls yet. Clerk Organizations migration if we change auth model — pick Organizations now, not later.</li>
+        <li><strong>Dependencies:</strong> none.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row">
+    <div class="when">Jun 22–28<br/>Week 2</div>
+    <div class="what">
+      <strong>WhatsApp end-to-end + WebhookDelivery idempotency + outbound queue</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> A real WA chat works through the system.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> <code>/api/webhooks/whatsapp</code> (GET verify + POST ingest with HMAC signature verification + WebhookDelivery dedup). <code>sendWhatsApp()</code> wrapped in Inngest job for retry. <code>ingestMessage()</code> service. Channel-connector interface. Cloudflare R2 for attachments.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Real test WA number → DM the app → message appears in DB with Contact + Conversation. ✅ Same message replayed (manually) → idempotent (no dup). ✅ Outbound send retries 3× on 5xx then dead-letters.</li>
+        <li><strong>Testing:</strong> Integration test with mocked Meta API, manual end-to-end with sandbox.</li>
+        <li><strong>Risks:</strong> Meta verification handshake fails — use ngrok to debug. If Meta WhatsApp approval isn't through yet, use the test number Meta provides.</li>
+        <li><strong>Dependencies:</strong> Meta WhatsApp API approved OR sandbox access.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row">
+    <div class="when">Jun 29–Jul 5<br/>Week 3</div>
+    <div class="what">
+      <strong>Unified Inbox UI + real-time polling + IG/Messenger connectors</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> The defining screen works. Three of four channels live.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Three-pane inbox (filters · list · thread). SWR polling 5s on open thread. Skeleton loaders. Message bubbles channel-aware. IG + Messenger connectors plugged in via the interface. ChannelLink table populated. Conversation merging: one Contact appears once even if they DM from WA + IG.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Real DM on WA → list updates within 5s without F5. ✅ Same contact DMs on IG → same Contact card, both threads visible. ✅ Reply from UI works on both channels.</li>
+        <li><strong>Testing:</strong> Playwright e2e: open inbox → reply → message sent → received on phone.</li>
+        <li><strong>Risks:</strong> IG/Messenger App Review not back yet → soft-feature behind flag and ship WA-only to design partners until approved.</li>
+        <li><strong>Dependencies:</strong> Week 2 schema. Meta IG + Messenger approval (mid-July realistic).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row ai">
+    <div class="when">Jul 6–12<br/>Week 4</div>
+    <div class="what">
+      <strong>AI Chatbot — intent classification + fixed-reply matching + ClassificationLog</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> The bot replies on its own.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> <code>classifyIntent()</code> using Claude API. Per-workspace LLM cost cap (config: cap 10k classifications/mo, then degrade to HANDOFF). Cheap pre-classifier (regex / keyword) for high-confidence cases to save Claude calls. Reply matching → send via connector. ClassificationLog rows for every classification. Conversation status auto-updates to HANDED_OFF on no-match.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Test workspace with 10 FAQ replies → 10 inbound test messages → at least 8 get the right auto-reply, 2 trigger HANDOFF. ✅ Cost-per-workspace visible in dev dashboard. ✅ Pre-classifier catches "what time do you open" without hitting Claude.</li>
+        <li><strong>Testing:</strong> Eval set of 50 test messages × 5 verticals → expected intent labels. Run before each Claude prompt change.</li>
+        <li><strong>Risks:</strong> Claude misclassifies edge cases. Mitigation: HANDOFF threshold + manual reclassification UI in Week 6.</li>
+        <li><strong>Dependencies:</strong> Anthropic API key, Week 2's inbound pipeline.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row ai">
+    <div class="when">Jul 13–19<br/>Week 5</div>
+    <div class="what">
+      <strong>Setup Wizard + vertical presets + FAQ Library editor</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> A new business can self-serve onboard end-to-end. <strong>Critical week.</strong></p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Multi-step Setup Wizard (5 steps). Vertical preset library (clinic / retail / education / auto / real-estate / pro-services / travel) baked into the codebase — pre-fills FAQ replies, tag sets, working-hours defaults. FAQ Library editor (list view + edit modal). Zod-validated forms throughout. Workspace.timezone required field.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Non-engineer (Mahmoud) completes the wizard end-to-end for a fake clinic in <strong>under 20 minutes</strong> with zero help. ✅ FAQ Library starts pre-populated, owner edits 3–5 replies. ✅ Wizard can be re-entered later from Settings.</li>
+        <li><strong>Testing:</strong> Playwright e2e for the full wizard. Manual user-test (Mahmoud + 1 friendly business) before week ends.</li>
+        <li><strong>Risks:</strong> THE biggest UX risk in V1. Spend the full week here — don't half-ship.</li>
+        <li><strong>Dependencies:</strong> Week 4 chatbot, content writing for vertical presets (Mahmoud can do this in Week 4).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row">
+    <div class="when">Jul 20–26<br/>Week 6</div>
+    <div class="what">
+      <strong>Calendar + Booking + Reminders cron · Incorporate Jul 15 (in parallel)</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> End-to-end booking works on WA.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Working-hours editor. Slot generator (nightly Inngest job). BOOK intent → WA interactive list of 5 slots. Customer picks → Appointment + slot.status=BOOKED + email to owner via Resend. Reminder cron (configurable hours, default 24h pre). Calendar UI for staff (view/edit/cancel). Timezone-aware throughout.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ End-to-end: DM "I want to book" → bot replies with slots → pick one → appointment in DB → reminder cron fires X hours before → owner gets email. ✅ Cancel from staff UI works. ✅ Reminders don't fire twice for the same appointment.</li>
+        <li><strong>Testing:</strong> Playwright e2e covering the full booking flow.</li>
+        <li><strong>Risks:</strong> WA interactive-list message limits (Meta charges, varies by country). Test with real numbers in Egypt + UAE.</li>
+        <li><strong>Dependencies:</strong> Week 4 chatbot. Bizee incorporation filed Jul 15 (Stripe + Mercury accounts opened).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row ai">
+    <div class="when">Jul 27–Aug 2<br/>Week 7</div>
+    <div class="what">
+      <strong>Mini CRM + Contact detail page + Tags + auto-tagging + Custom Follow-Up Rules</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> The CRM pillar is real.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Contacts list page (paginated, sortable). Contact detail page (header + Timeline / Notes / Appointments tabs). Manual tags + auto-tag rules ("source = IG Ad → tag IG-Lead"). Rule Builder UI (trigger + delay + reply). Rules cron (every 15 min).</li>
+        <li><strong>Acceptance criteria:</strong> ✅ "If customer asked price and didn't book in 24h, send win-back X" → rule fires within 16 minutes of being eligible. ✅ Contact page shows messages across all channels, all bookings, all rule-firings. ✅ Tag drag-and-drop works in both directions.</li>
+        <li><strong>Testing:</strong> Integration test: create rule → simulate trigger condition → assert message sent + AuditLog row created.</li>
+        <li><strong>Risks:</strong> Rule engine complexity creep. Cap V1 to 5 trigger types (no_booking_within / intent_matched / appt_no_show / tag_added / message_count_reached). Anything else is V2.</li>
+        <li><strong>Dependencies:</strong> Weeks 1–6.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row">
+    <div class="when">Aug 3–9<br/>Week 8</div>
+    <div class="what">
+      <strong>Private notes + Quick replies + Business hours + Analytics dashboard</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> The small details that make the product feel finished.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Private Notes on Conversations (author + timestamp, hidden from customer). Quick-Reply Templates (<code>/price</code>, <code>/hours</code>) with autocomplete in the reply box. Business-Hours / OOO auto-reply (overrides chatbot outside hours). Analytics dashboard (6 cards + 1 line chart).</li>
+        <li><strong>Acceptance criteria:</strong> ✅ All 22 P0/P1 V1 features check off (cross-reference §05). ✅ <strong>Feature freeze at end of Week 8.</strong> No new scope after this.</li>
+        <li><strong>Testing:</strong> Manual UX walkthrough of every screen. Bug-list opened.</li>
+        <li><strong>Risks:</strong> Scope creep — owners say "while we're here, can we add X?" Hard no. Add to V1.1 backlog.</li>
+        <li><strong>Dependencies:</strong> Weeks 1–7.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row launch">
+    <div class="when">Aug 10–16<br/>Week 9</div>
+    <div class="what">
+      <strong>Stripe + plan gating + 14-day trial + Demo data seeding</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> The business model works in code.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Stripe subscription integration. PlanFeatureGate middleware (gates AI chatbot, calendar, multi-channel, etc.). 14-day trial logic with countdown. Stripe webhook handler hardened (signature + idempotency). Demo data seeding on Workspace creation (1 sample contact, 5 sample messages, walking the user through the inbox UI).</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Real Stripe checkout completes → webhook updates Subscription → UI reflects the right plan. ✅ Starter account can't curl the chatbot API. ✅ New workspace lands on inbox with demo conversation visible.</li>
+        <li><strong>Testing:</strong> Stripe webhook replay test (idempotent). Plan-gate curl test (Starter → 402 on POST chatbot).</li>
+        <li><strong>Risks:</strong> Stripe webhook delays. Add a daily reconciliation cron that pulls fresh subscription state from Stripe to repair drift.</li>
+        <li><strong>Dependencies:</strong> Stripe account live (Jul 15 incorporation prerequisite).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row launch">
+    <div class="when">Aug 17–23<br/>Week 10</div>
+    <div class="what">
+      <strong>Stabilize · Code hygiene · Security checklist · Marketing site</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> Production-ready.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Sentry catching errors, PostHog tracking every key flow. Marketing site live in Framer or Next.js (separate repo). Custom domain on Vercel with SSL. All Security Checklist items from §08 closed. All Playwright e2e tests green. README + ops runbook complete.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ Self-test: Belal + Mahmoud onboard their own fake business and use it for 3 consecutive days with zero errors in Sentry. ✅ Type-check + lint clean. ✅ Every box in §08 security checklist ticked.</li>
+        <li><strong>Testing:</strong> Bug squash. P0/P1 must all be closed.</li>
+        <li><strong>Risks:</strong> Last-minute bugs. Mitigation: <strong>no new features this week.</strong></li>
+        <li><strong>Dependencies:</strong> Weeks 1–9.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row launch">
+    <div class="when">Aug 24–31<br/>Week 11</div>
+    <div class="what">
+      <strong>Private-beta dry-run · Final polish · Launch checklist</strong>
+      <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> One real (friendly) customer is live in production.</p>
+      <ul class="clean">
+        <li><strong>Deliverables:</strong> Onboard 1–2 friendly businesses via the Setup Wizard. Observe + fix UX papercuts. Final cron sanity check (48h clean Sentry). Privacy policy + ToS live. GDPR data-export endpoint live. Walk every item in the launch checklist.</li>
+        <li><strong>Acceptance criteria:</strong> ✅ 1 friendly business completed Setup Wizard with zero help. ✅ 48h of clean cron runs (no Sentry errors). ✅ Every launch-checklist box ☑.</li>
+        <li><strong>Testing:</strong> Real-world test on a live workspace, not a sandbox.</li>
+        <li><strong>Risks:</strong> Discover a P0 bug from the friendly business. Mitigation: <strong>slip launch by 1 week; don't ship broken.</strong></li>
+        <li><strong>Dependencies:</strong> Weeks 1–10.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="week-row launch">
+    <div class="when">🚀 Sep 1</div>
+    <div class="what">
+      <strong>Private Beta Launch (5 design partners)</strong>
+      <p style="font-size:12.5px; margin:4px 0;">App live · trial open · pricing page published · 5 design partners onboarded by Mahmoud + Belal in person over the first 2 weeks. <strong>Public launch shifts to Oct 1</strong> with case-study numbers in hand from the design partners.</p>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <strong>Why ~11 weeks works:</strong> With Claude Code doing 70–80% of the code per the playbook, the 22 P0/P1 features fit. The buffer week (W11) is what makes the difference between "launched on Sep 1" and "launched on Oct 1 after pushing twice." Don't compress it.
+  </div>
+</section>
+
+<!-- §11 TOP 10 CALLS -->
+<section id="calls">
+  <h2><span class="num">∑</span>The 10 founder-level calls I'd make today</h2>
+  <p class="section-sub">If you only read one section of this doc, read this. These are the decisions that compound over the next 6 months.</p>
+
+  <ol style="padding-left:22px; font-size:14px; line-height:1.7;">
+    <li style="margin:8px 0;"><strong>Drop TikTok from V1.</strong> Ship in V1.1. Buys 3–5 dev-days, no material lost value.</li>
+    <li style="margin:8px 0;"><strong>Vertical presets are mandatory, not optional.</strong> The Setup Wizard must ship pre-filled. This is the single biggest churn lever in V1.</li>
+    <li style="margin:8px 0;"><strong>Define "billable contact" precisely</strong> before any code is written. My recommendation: unique person you sent ≥ 1 outbound message to this month.</li>
+    <li style="margin:8px 0;"><strong>Add the 7 missing schema tables in Week 1</strong> (WorkspaceMember, Subscription, AuditLog, WebhookDelivery, MessageAttachment, ChannelLink, ClassificationLog). Cheap now, expensive to retrofit.</li>
+    <li style="margin:8px 0;"><strong>Postgres RLS from Day 1</strong> as defense-in-depth on top of middleware filtering. One forgotten <code>where workspaceId</code> = a tenant leak.</li>
+    <li style="margin:8px 0;"><strong>Real-time inbox via SWR polling in V1.</strong> No WebSocket infra needed yet; upgrade later.</li>
+    <li style="margin:8px 0;"><strong>Position Sep 1 as a private beta launch, public launch Oct 1.</strong> Same engineering deadline, way better marketing story (case-study numbers in hand by Oct).</li>
+    <li style="margin:8px 0;"><strong>Cheap pre-classifier before Claude.</strong> Regex / keyword matching catches 30–40% of clear intents (hours, pricing, location). Saves Claude calls and protects gross margin.</li>
+    <li style="margin:8px 0;"><strong>Demo data on signup.</strong> A new workspace must never see a fully empty inbox. Seed a guided demo conversation.</li>
+    <li style="margin:8px 0;"><strong>Stripe billing + plan gating in Week 9, not Week 10.</strong> Don't underestimate billing — it's a full sprint to do right (webhook hardening, plan-gate matrix, trial countdown, reconciliation cron). Allocate the time.</li>
+  </ol>
+
+  <div class="callout">
+    <strong>The bigger picture:</strong> the 4 pillars are right, the pricing is right, the positioning is right (the post-trial Kommo finding sharpened it). The biggest risk is execution drift — adding 18th, 19th, 20th feature, slipping Setup Wizard polish, or over-engineering channels. The masterplan above is built to keep the team honest. <strong>Ship the 22 P0/P1 features by Sep 1, onboard 5 design partners, generate case-study numbers, launch publicly Oct 1.</strong> Everything else is V1.1.
+  </div>
+</section>
+
+<footer>
+  Co-Founder Strategic Review · Locked Jun 14, 2026 · Mahmoud · Belal · Ahmed · Claude
+  <br/><br/>
+  <a class="back-link" href="index.html">← Main plan</a>
+  <a class="back-link" href="v1-build.html">🛠️ Build playbook</a>
+</footer>
+
+</div>
+</body>
+</html>
