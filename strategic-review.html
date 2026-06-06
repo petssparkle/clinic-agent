@@ -640,7 +640,7 @@ model AuditLog {
 model WebhookDelivery {
   id            String    @id @default(cuid())
   channel       Channel
-  externalId    String    // Meta message id / TikTok event id
+  externalId    String    // channel-native message id
   payload       Json
   receivedAt    DateTime  @default(now())
   processedAt   DateTime?
@@ -756,7 +756,7 @@ model ClassificationLog {
       <strong>Foundations + Meta filings + schema lock</strong>
       <p style="font-size:12.5px; margin:4px 0;"><em>Objectives:</em> Filing → repo → schema → auth working end-to-end.</p>
       <ul class="clean">
-        <li><strong>Deliverables:</strong> All Meta + TikTok approvals submitted (Day 1). All dev accounts created. Next.js + TS + Tailwind + shadcn + Prisma + Clerk repo bootstrapped. Full schema (existing + 7 new tables from §09) migrated to Neon. Postgres RLS enabled. WorkspaceContext middleware working.</li>
+        <li><strong>Deliverables:</strong> All Meta approvals submitted (Day 1). All dev accounts created. Next.js + TS + Tailwind + shadcn + Prisma + Clerk repo bootstrapped. Full schema (existing + 7 new tables from §09) migrated to Neon. Postgres RLS enabled. WorkspaceContext middleware working.</li>
         <li><strong>Acceptance criteria:</strong> ✅ Sign up → workspace created → land on empty dashboard. ✅ DB schema matches §09 exactly. ✅ RLS proven via two-account test (User A can't query User B's data even with raw SQL).</li>
         <li><strong>Testing:</strong> Manual signup smoke test + 1 Vitest covering RLS isolation.</li>
         <li><strong>Risks:</strong> Meta approval delays — irrelevant for Week 1 since no API calls yet. Clerk Organizations migration if we change auth model — pick Organizations now, not later.</li>

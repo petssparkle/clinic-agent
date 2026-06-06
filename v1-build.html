@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>V1 Build Playbook — Start Building With Claude Code</title>
+<title>V1 Build Playbook — Ship the MVP With Claude Code</title>
 <style>
   :root {
     --panel: #ffffff;
@@ -98,43 +98,121 @@
 
 <!-- HERO -->
 <div class="hero">
-  <span class="pill">V1 Build Playbook · Engineering only · Kickoff: Jun 15, 2026</span>
-  <h1>How we <span>build V1</span> with Claude &amp; Claude Code.</h1>
-  <p class="lead">Pure engineering — no marketing, no acquisition, no GTM. Just the stack, the schema, the API integrations, the code patterns, and the sprint-by-sprint walkthrough that turns the 4 pillars (Unified Inbox · AI Chatbot · Calendar · Mini CRM) into shipping software. <strong style="color:white;">Everything starts Jun 15</strong> — accounts, Meta approvals, repo, code. Approvals take 2–4 weeks each, so we file them on Day 1 and code around them while they land.</p>
+  <span class="pill">V1 Build Playbook · Continuous build mode · Founder + Claude Code</span>
+  <h1>Ship the <span>Cowork MVP</span> — alongside Claude Code, today.</h1>
+  <p class="lead">This is the action playbook for a non-developer founder (Mahmoud) + one engineer co-founder (Belal) building the MVP <em>right now</em> with Claude Code. No multi-week sprint plan — just the accounts to sign up, the credentials to hand over, and the 11 stages the code moves through. <strong style="color:white;">Continuous build mode — ships when the 11 stages are green and 1–2 beta customers onboarded successfully.</strong></p>
 </div>
 
-<!-- §00 SCOPE -->
+<!-- §00 PRE-FLIGHT CHECKLIST -->
+<section id="preflight">
+  <h2><span class="num">00</span>📋 Pre-Flight Checklist — Set Up TODAY (~1 hour, founder work)</h2>
+  <p class="section-sub">This is the founder's job — not Claude Code's. Get every account created, every credential copied into a shared 1Password vault, and the Meta App filed for review. The Meta review takes 3–10 business days, so it's the slowest dependency — <strong>file it first.</strong> Claude Code can build everything else in parallel while you wait.</p>
+
+  <div class="card">
+    <h3>1. Personal accounts (verify Belal has these — 0 min if yes)</h3>
+    <ul class="clean">
+      <li><strong>Personal Facebook account</strong> for Belal — real name + phone number verified. Required to create the Meta Business Portfolio and App.</li>
+      <li><strong>Personal WhatsApp</strong> on his phone — needed to test inbound flows once the Cloud API number is live.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>2. Meta Business setup (~30 min, free)</h3>
+    <ul class="clean">
+      <li><strong>Meta Business Portfolio</strong> — go to <code>business.facebook.com</code> → "Create Account" → name it <strong>Cowork</strong>.</li>
+      <li><strong>Facebook Page for Cowork</strong> — Business Manager → Pages → Add → Create new Page → Category "Software". This is what Messenger attaches to.</li>
+      <li><strong>Instagram Business Account</strong> — convert an existing IG to Business OR create a new one → connect it to the Cowork FB Page (Page Settings → Linked Accounts → Instagram).</li>
+      <li><strong>Public website URL</strong> — Meta requires one on the App. Currently <code>https://petssparkle.github.io/clinic-agent/</code> is fine for now. Optional: buy <code>cowork.app</code> (~$15/year on Namecheap or Cloudflare) and swap later.</li>
+      <li><strong>Privacy Policy + Terms of Service</strong> — required for App Review. Use <code>termly.io</code> or <code>privacypolicies.com</code> → generate both → host at <code>/privacy</code> and <code>/terms</code> on the website. Paste the URLs into the Meta App settings.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>3. Service account signups (~30 min total, all free tiers OK)</h3>
+    <p>One row, one signup. Copy the listed credentials into the shared vault as soon as you create them — Claude Code will ask for them, stage by stage.</p>
+    <table>
+      <thead><tr><th>Service</th><th>What it's for</th><th>URL</th><th>What to copy</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Neon</strong></td><td>Postgres database</td><td>console.neon.tech</td><td>DATABASE_URL + DIRECT_URL</td></tr>
+        <tr><td><strong>Clerk</strong></td><td>User auth + Organizations</td><td>dashboard.clerk.com</td><td>PUBLISHABLE_KEY + SECRET_KEY <em>(must enable Organizations in settings!)</em></td></tr>
+        <tr><td><strong>Anthropic</strong></td><td>AI classification</td><td>console.anthropic.com</td><td>ANTHROPIC_API_KEY</td></tr>
+        <tr><td><strong>Resend</strong></td><td>Transactional email</td><td>resend.com</td><td>RESEND_API_KEY</td></tr>
+        <tr><td><strong>Cloudflare R2</strong></td><td>File storage</td><td>dash.cloudflare.com → R2</td><td>Access Key ID + Secret + bucket name + account ID</td></tr>
+        <tr><td><strong>Inngest</strong></td><td>Background jobs / queues</td><td>inngest.com</td><td>EVENT_KEY + SIGNING_KEY</td></tr>
+        <tr><td><strong>Upstash</strong></td><td>Redis rate limiting</td><td>upstash.com</td><td>REST_URL + REST_TOKEN</td></tr>
+        <tr><td><strong>Stripe</strong></td><td>Billing <em>(can wait until Stage 9)</em></td><td>stripe.com</td><td>SECRET_KEY + WEBHOOK_SECRET</td></tr>
+        <tr><td><strong>Vercel</strong></td><td>Hosting <em>(can wait until Stage 10)</em></td><td>vercel.com</td><td>Connect via GitHub</td></tr>
+        <tr><td><strong>PostHog / Sentry / BetterStack</strong></td><td>Observability <em>(Stage 10)</em></td><td>respective dashboards</td><td>Project keys + DSNs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent-2);">
+    <h3 style="color:#b45309;">4. Meta App Creation (~30 min — file TODAY to start the review clock)</h3>
+    <p><strong>This is the single slowest dependency in the entire build.</strong> Standard review takes 3–10 business days. File it today even if you don't need the credentials for a week.</p>
+    <ul class="clean">
+      <li>Go to <code>developers.facebook.com/apps</code> → <strong>Create App</strong></li>
+      <li>Type: <strong>Business</strong>. Name: <strong>Cowork</strong>. Log in as Belal.</li>
+      <li>Add <strong>3 products</strong>: WhatsApp Business Platform · Instagram (Messaging API) · Messenger Platform</li>
+      <li>From <strong>Settings → Basic</strong>: copy <strong>App ID</strong> and <strong>App Secret</strong> — save these in the vault.</li>
+      <li>Make up a Verify Token (any random 20+ character string, e.g. <code>cowork_verify_xK9p2mZqRt8aB3wY</code>) — save it. This is your choice; Meta just echoes it.</li>
+      <li>Add a <strong>1024×1024 app icon</strong> (Figma or Canva → export a teal-on-white "C" mark).</li>
+      <li>Submit each of the 3 products for App Review. Fill the form for each:
+        <ul class="clean">
+          <li>Business description: <em>"Unified inbox for SMBs to manage WhatsApp, Instagram, and Messenger conversations from one screen, with an AI assistant that auto-replies using a business-curated FAQ library."</em></li>
+          <li>Use cases: customer support, appointment booking, lead capture across Meta surfaces.</li>
+          <li>Demo video: 60–90s screen recording of the inbox (record once Stage 3 is done — until then save a draft).</li>
+        </ul>
+      </li>
+      <li><strong>Standard review: 3–10 business days.</strong> File today. Build around it.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>5. Business verification (can wait — only needed for FULL production)</h3>
+    <p>Not blocking the MVP build. Wrap this up in the background:</p>
+    <ul class="clean">
+      <li><strong>Bizee LLC formation</strong> (or wait for it if already filed)</li>
+      <li><strong>EIN letter</strong> from the IRS</li>
+      <li><strong>Business address proof</strong> (utility bill, lease, or bank letter)</li>
+      <li><strong>Submit to Meta Business Verification</strong> once all 3 docs are in hand — unlocks higher messaging limits and removes "in development" badges.</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <strong>The strategy:</strong> file the Meta App today. Sign up for Neon + Clerk + Anthropic today. Hand the credentials to Claude Code as it asks for them — Stage 1 starts the moment you have <code>DATABASE_URL</code> + Clerk keys in the vault. The Meta credentials are only needed when Stage 2 reaches live testing; by then, the review will likely be back.
+  </div>
+</section>
+
+<!-- §01 SCOPE -->
 <section id="scope">
-  <h2><span class="num">00</span>What we're shipping in V1</h2>
-  <p class="section-sub">Lock these four pillars in your head — every build decision below maps back to one of them. <strong>If a feature doesn't map, it's V2.</strong></p>
+  <h2><span class="num">01</span>What we're shipping in V1</h2>
+  <p class="section-sub">Four pillars. Every stage maps back to one of them. <strong>If a feature doesn't map, it's V1.1.</strong></p>
 
   <div class="grid-2">
     <div class="card">
       <h4 style="color:var(--brand);">Pillar 1 · Unified Inbox</h4>
       <ul class="clean">
-        <li>WhatsApp + Instagram + Messenger + TikTok in one view</li>
-        <li>Inbound webhook receiver per channel</li>
-        <li>Send replies from one UI, any channel</li>
-        <li>Threading per customer (one thread, all channels)</li>
-        <li>Private notes + @-mentions + quick-reply templates</li>
+        <li>WhatsApp + Instagram + Messenger in one view <em>(TikTok = V1.1)</em></li>
+        <li>Inbound webhook per channel · send replies from one UI</li>
+        <li>One thread per customer across all channels</li>
+        <li>Private notes · @-mentions · quick-reply templates</li>
       </ul>
     </div>
     <div class="card">
       <h4 style="color:var(--accent);">Pillar 2 · AI Chatbot</h4>
       <ul class="clean">
         <li>Fixed-reply mechanic — bot only sends what the business wrote</li>
-        <li>Intent classifier (Claude API) on every inbound message</li>
-        <li>FAQ Library editor in the dashboard</li>
-        <li>Setup Wizard to populate it (services, prices, hours, FAQs)</li>
+        <li>Claude API classifies intent on every inbound message</li>
+        <li>FAQ Library editor + Setup Wizard to populate it</li>
         <li>Human handoff when intent doesn't match</li>
       </ul>
     </div>
     <div class="card">
       <h4 style="color:var(--brand-2);">Pillar 3 · Calendar</h4>
       <ul class="clean">
-        <li>Native booking calendar (working hours, slot rules, no double-booking)</li>
-        <li>Bot pulls free slots when customer signals booking intent</li>
-        <li>Customer picks → appointment created → confirmation sent</li>
+        <li>Native booking (working hours, slot rules, no double-booking)</li>
+        <li>Bot offers free slots on booking intent → customer picks → appointment created</li>
         <li>Pre-appointment reminders (timing set by business)</li>
         <li>Email notification to owner on every booking</li>
       </ul>
@@ -142,659 +220,261 @@
     <div class="card">
       <h4 style="color:var(--accent-2);">Pillar 4 · Mini CRM</h4>
       <ul class="clean">
-        <li>Auto-pull every inbox message into a Contact record</li>
-        <li>Tags (auto + custom) · Notes (private) · Status</li>
-        <li>Conversation history per contact, across all channels</li>
-        <li>Custom Follow-Up Rules (no-code trigger → reply → delay)</li>
-        <li>Basic analytics (6 counters)</li>
+        <li>Every inbox message auto-pulled into a Contact record</li>
+        <li>Tags (auto + custom) · private notes · status</li>
+        <li>Unified conversation history per contact, across channels</li>
+        <li>Custom Follow-Up Rules + basic analytics</li>
       </ul>
     </div>
   </div>
 
   <div class="callout">
-    <strong>That's the whole V1.</strong> 17 features clustered around 4 pillars. Anything not on this page is V2 or later — no exceptions.
+    <strong>That's the whole V1.</strong> 22 features around 4 pillars. Anything not here is V1.1 — no exceptions.
   </div>
 </section>
 
-<!-- §01 TECH STACK -->
+<!-- §02 STACK -->
 <section id="stack">
-  <h2><span class="num">01</span>The tech stack — chosen for Claude Code velocity</h2>
-  <p class="section-sub">Optimized for "Claude Code can write 80% of this." Boring, well-documented, with strong types — Claude Code performs best when the framework conventions are tight and the surface area is small.</p>
+  <h2><span class="num">02</span>The stack — locked in</h2>
+  <p class="section-sub">Boring, well-documented, strong types. Claude Code performs best when conventions are tight and the surface area is small.</p>
 
   <table>
-    <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+    <thead><tr><th>Layer</th><th>Choice</th></tr></thead>
     <tbody>
-      <tr><td><strong>Framework</strong></td><td>Next.js 14 (App Router) + TypeScript</td><td>One repo for API + UI. Vercel-native. Claude Code knows it cold.</td></tr>
-      <tr><td><strong>Styling</strong></td><td>Tailwind CSS + shadcn/ui</td><td>Copy-paste components, no design-system debt. Fast to ship.</td></tr>
-      <tr><td><strong>Database</strong></td><td>Postgres on Neon</td><td>Free tier, branching for dev/preview, scales when we need it.</td></tr>
-      <tr><td><strong>ORM</strong></td><td>Prisma</td><td>Typed schema, migrations, Claude Code is excellent at Prisma.</td></tr>
-      <tr><td><strong>Auth</strong></td><td>Clerk (or Lucia self-hosted)</td><td>Multi-tenant ready. Workspace + user model out of the box.</td></tr>
-      <tr><td><strong>AI</strong></td><td>Claude API (Sonnet 4.5)</td><td>Intent classification + reply matching. Claude is our model.</td></tr>
-      <tr><td><strong>Channels</strong></td><td>Meta Cloud API (WhatsApp), Instagram Graph API, Messenger Platform, TikTok Business Messaging</td><td>Direct from Meta — free hosting, free Instagram/Messenger.</td></tr>
-      <tr><td><strong>Email</strong></td><td>Resend</td><td>Free tier, transactional notifications + reminders.</td></tr>
-      <tr><td><strong>Background jobs</strong></td><td>Vercel Cron + Inngest (or Trigger.dev)</td><td>Reminders, follow-up rules, scheduled work.</td></tr>
-      <tr><td><strong>Payments</strong></td><td>Stripe + Tap (Gulf)</td><td>Live after incorporation in mid-July.</td></tr>
-      <tr><td><strong>Hosting</strong></td><td>Vercel</td><td>Free tier for V1. Next.js native, edge functions.</td></tr>
-      <tr><td><strong>Monitoring</strong></td><td>PostHog (analytics) + Sentry (errors)</td><td>Both have generous free tiers.</td></tr>
+      <tr><td><strong>Framework</strong></td><td>Next.js 14 (App Router) + TypeScript</td></tr>
+      <tr><td><strong>Styling</strong></td><td>Tailwind CSS + shadcn/ui</td></tr>
+      <tr><td><strong>Database</strong></td><td>Postgres on Neon</td></tr>
+      <tr><td><strong>ORM</strong></td><td>Prisma</td></tr>
+      <tr><td><strong>Auth</strong></td><td>Clerk Organizations (multi-tenant)</td></tr>
+      <tr><td><strong>AI</strong></td><td>Claude API</td></tr>
+      <tr><td><strong>Channels</strong></td><td>Meta Cloud API (WhatsApp · Instagram · Messenger)</td></tr>
+      <tr><td><strong>Email</strong></td><td>Resend</td></tr>
+      <tr><td><strong>Background jobs</strong></td><td>Inngest</td></tr>
+      <tr><td><strong>File storage</strong></td><td>Cloudflare R2</td></tr>
+      <tr><td><strong>Rate limiting</strong></td><td>Upstash Redis</td></tr>
+      <tr><td><strong>Payments</strong></td><td>Stripe (Stage 9)</td></tr>
+      <tr><td><strong>Hosting</strong></td><td>Vercel (Stage 10)</td></tr>
+      <tr><td><strong>Observability</strong></td><td>PostHog · Sentry · BetterStack (Stage 10)</td></tr>
     </tbody>
   </table>
 
   <div class="callout">
-    <strong>One-line philosophy:</strong> if Claude Code can ship it faster, pick that. We're 2 humans + Claude — we can't afford "interesting" tech choices.
-  </div>
-
-  <h3>The one-shot bootstrap</h3>
-  <p>Day 1 in the terminal. Claude Code can do most of this for you if you paste the dependency list, but the spine is:</p>
-  <pre><code># 1. Repo
-npx create-next-app@latest cw-platform --typescript --tailwind --app --src-dir
-cd cw-platform
-
-# 2. Core deps
-pnpm add @prisma/client @clerk/nextjs zod @anthropic-ai/sdk resend
-pnpm add -D prisma @types/node
-
-# 3. UI kit (shadcn)
-pnpm dlx shadcn@latest init
-pnpm dlx shadcn@latest add button input card dialog dropdown-menu tabs toast
-
-# 4. Database
-pnpm dlx prisma init --datasource-provider postgresql
-# (paste DATABASE_URL from Neon into .env)
-
-# 5. Once schema is in place
-pnpm dlx prisma migrate dev --name init
-pnpm dlx prisma generate
-
-# 6. Run
-pnpm dev</code></pre>
-
-  <h3>The <code>.env</code> we'll need</h3>
-  <pre><code># Database
-DATABASE_URL="postgresql://..."           # Neon
-
-# Auth
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_..."
-CLERK_SECRET_KEY="sk_..."
-
-# AI
-ANTHROPIC_API_KEY="sk-ant-..."
-
-# WhatsApp Cloud API
-META_APP_ID="..."
-META_APP_SECRET="..."
-META_VERIFY_TOKEN="random-string-we-pick"  # for webhook verification
-WHATSAPP_PHONE_NUMBER_ID="..."
-WHATSAPP_BUSINESS_ACCOUNT_ID="..."
-WHATSAPP_ACCESS_TOKEN="..."
-
-# Email
-RESEND_API_KEY="re_..."
-
-# Cron auth (Vercel)
-CRON_SECRET="random-string-we-pick"</code></pre>
-</section>
-
-<!-- §02 ACCOUNTS / APIs -->
-<section id="accounts">
-  <h2><span class="num">02</span>Accounts &amp; API approvals — all filed Jun 15 (Day 1)</h2>
-  <p class="section-sub">Everything kicks off the morning of <strong>Jun 15</strong>. File Meta approvals first thing — they take 2–4 weeks each, so they land mid-build, not at the start. The code is structured so we can keep building (schema, auth, inbox UI, AI logic) while approvals are pending.</p>
-
-  <div class="grid-2">
-    <div class="card" style="border-left:4px solid var(--accent-2);">
-      <h4 style="color:#b45309;">A · File these first (Day 1 — async, blocks nothing)</h4>
-      <p style="font-size:12.5px; color:var(--muted); margin:2px 0 8px;"><em>Submit them and forget — they'll respond on their own timeline.</em></p>
-      <ul class="clean">
-        <li><strong>Meta Business Verification</strong> — 1–3 weeks. Required to unlock everything Meta. Business docs, address, phone, sometimes utility bill.</li>
-        <li><strong>WhatsApp Business API (Cloud API)</strong> — register a phone number never used with personal WA. Display-name approval included.</li>
-        <li><strong>Instagram Graph API + Messenger Platform</strong> — Meta App Review for <code>instagram_manage_messages</code> + <code>pages_messaging</code>. Submit a demo video. <strong>~2–4 weeks each</strong>.</li>
-        <li><strong>TikTok Business Messaging API</strong> — apply via TikTok Developer Portal. Newer API, expect quirks.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4 style="color:var(--brand);">B · Instant accounts (Day 1 — code starts immediately)</h4>
-      <ul class="clean">
-        <li><strong>Anthropic API key</strong> — instant. Set usage limits.</li>
-        <li><strong>GitHub</strong> — private repo</li>
-        <li><strong>Vercel</strong> — free hobby tier</li>
-        <li><strong>Neon</strong> — free Postgres (1 prod branch + 1 preview branch)</li>
-        <li><strong>Clerk</strong> — free tier (10k MAU)</li>
-        <li><strong>Resend</strong> — free tier (3k emails/mo)</li>
-        <li><strong>PostHog + Sentry</strong> — free tiers</li>
-        <li><strong>Domain</strong> — Namecheap, ~$15/yr</li>
-        <li><strong>Mid-July (incorporation):</strong> Bizee US LLC ($300), Stripe, Mercury, Wise</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="callout warn">
-    <strong>⚠️ The plug-and-play strategy:</strong> the channel-connector interface (Week 2) lets every Meta surface plug in as a one-line config addition. We never block waiting on approvals — we build the inbox UI + AI engine with WhatsApp (the fastest approval) and patch in IG / Messenger / TikTok the day each lands.
+    <strong>Philosophy:</strong> if Claude Code can ship it faster, pick that. We're a founder + an engineer + Claude — no room for "interesting" tech choices.
   </div>
 </section>
 
-<!-- §03 DATA MODEL -->
-<section id="schema">
-  <h2><span class="num">03</span>Database schema — the V1 data model</h2>
-  <p class="section-sub">Lock this in Week 2. Everything else builds on top of it. <strong>Multi-tenant from Day 1</strong> — each business is a Workspace; every row is scoped by <code>workspaceId</code>.</p>
+<!-- §03 THE 11 STAGES -->
+<section id="stages">
+  <h2><span class="num">03</span>The 11-stage continuous build</h2>
+  <p class="section-sub">Each stage is built by Claude Code, end-to-end, in continuous mode. No weekly schedule — we move to the next stage when the current one is green. Each stage tells you the goal, what gets built, the credentials Claude Code will ask for, and the "done when" gate.</p>
 
-  <pre><code>// Prisma schema — V1 core tables (simplified)
-
-model Workspace {
-  id            String   @id @default(cuid())
-  name          String
-  plan          Plan     @default(STARTER)  // STARTER | GROWTH | AGENCY | ENTERPRISE
-  contactsLimit Int      @default(500)
-  createdAt     DateTime @default(now())
-  users         User[]
-  contacts      Contact[]
-  // ... all other tables FK back to workspaceId
-}
-
-model User {
-  id          String     @id @default(cuid())
-  workspaceId String
-  email       String     @unique
-  name        String?
-  role        UserRole   @default(MEMBER)
-  workspace   Workspace  @relation(fields: [workspaceId], references: [id])
-}
-
-model Contact {
-  id           String         @id @default(cuid())
-  workspaceId  String
-  name         String?
-  phone        String?
-  channelIds   ChannelLink[]  // WA / IG / Messenger / TikTok handles
-  tags         Tag[]
-  status       ContactStatus  @default(NEW)  // NEW | ACTIVE | BOOKED | CHURNED
-  source       String?        // "Instagram Ad" | "Walk-in" | etc.
-  createdAt    DateTime       @default(now())
-  conversations Conversation[]
-}
-
-model Conversation {
-  id          String     @id @default(cuid())
-  workspaceId String
-  contactId   String
-  channel     Channel    // WHATSAPP | INSTAGRAM | MESSENGER | TIKTOK
-  status      ConvStatus @default(OPEN)  // OPEN | HANDED_OFF | CLOSED
-  contact     Contact    @relation(fields: [contactId], references: [id])
-  messages    Message[]
-  notes       Note[]
-}
-
-model Message {
-  id             String      @id @default(cuid())
-  conversationId String
-  direction      Direction   // INBOUND | OUTBOUND
-  body           String
-  channel        Channel
-  intent         String?     // classified intent (pricing, hours, booking, etc.)
-  sentByAI       Boolean     @default(false)
-  sentAt         DateTime    @default(now())
-}
-
-model Note {  // private internal notes on conversations
-  id             String   @id @default(cuid())
-  conversationId String
-  authorId       String
-  body           String
-  createdAt      DateTime @default(now())
-}
-
-model Reply {  // the Fixed-Reply FAQ Library
-  id           String   @id @default(cuid())
-  workspaceId  String
-  intent       String   // matches Message.intent
-  body         String
-  language     String   @default("en")  // "en" | "ar"
-}
-
-model Tag {
-  id          String    @id @default(cuid())
-  workspaceId String
-  label       String
-  contacts    Contact[]
-}
-
-model BookingSlot {  // calendar — generated working-hours slots
-  id          String   @id @default(cuid())
-  workspaceId String
-  startAt     DateTime
-  endAt       DateTime
-  status      SlotStatus // AVAILABLE | BOOKED | BLOCKED
-}
-
-model Appointment {
-  id          String      @id @default(cuid())
-  workspaceId String
-  contactId   String
-  slotId      String
-  status      ApptStatus  // CONFIRMED | RESCHEDULED | NO_SHOW | COMPLETED
-  reminderSent Boolean    @default(false)
-}
-
-model Rule {  // Custom Follow-Up Rules
-  id          String   @id @default(cuid())
-  workspaceId String
-  trigger    Json     // { type: "no_booking_within", hours: 24, askedAbout: "price" }
-  replyId    String   // FK to Reply
-  enabled    Boolean  @default(true)
-}</code></pre>
-
-  <div class="callout">
-    <strong>Why this shape:</strong> Contact is the CRM root. Conversation groups Messages by channel. Reply is the bot's library. Rule + Appointment cover lifecycle. Note + Tag are the team-collab surface. Every table FKs to <code>workspaceId</code> — that's the entire multi-tenancy model.
-  </div>
-</section>
-
-<!-- §04 SPRINT PLAN -->
-<section id="sprints">
-  <h2><span class="num">04</span>The 10-week build sprint plan</h2>
-  <p class="section-sub">Each row is one week. Every row includes the goal, a Claude Code prompt pattern that gets you 80% of the way, and the artifact that proves it's done.</p>
-
-  <!-- WEEK 1 -->
+  <!-- STAGE 1 -->
   <div class="week-row build">
-    <div class="when">Jun 15–21<br/>Week 1</div>
+    <div class="when">Stage 1</div>
     <div class="what">
-      <strong>Foundations — accounts, repo, schema, auth</strong>
+      <strong>Foundations &amp; Schema</strong>
+      <p><strong>Goal:</strong> a deployed Next.js app with a multi-tenant Postgres schema and working auth.</p>
       <ul class="clean">
-        <li>Day 1 (Mon): file all Meta approvals + open Anthropic / GitHub / Vercel / Neon / Clerk / Resend accounts</li>
-        <li>Day 2: <code>npx create-next-app</code>, Tailwind, shadcn-init, Prisma init</li>
-        <li>Day 3–4: Lock the Prisma schema (§03), first migration to Neon</li>
-        <li>Day 5: Clerk auth → Workspace + User onboarding flow</li>
-        <li>Day 6–7: Deploy preview env on Vercel, env vars set, smoke test</li>
+        <li>Scaffold Next.js 14 + Tailwind + shadcn + Prisma</li>
+        <li>Apply the V1 Prisma schema (Workspace, User, Contact, Conversation, Message, Note, Reply, Tag, BookingSlot, Appointment, Rule) — all FKs to <code>workspaceId</code></li>
+        <li>Wire Clerk Organizations → new signup auto-creates a Workspace</li>
+        <li>Protected <code>/dashboard</code> route</li>
       </ul>
-      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;"><strong>Claude Code prompt:</strong> "Set up a Next.js 14 App Router project with TypeScript, Tailwind, shadcn, Prisma, and Clerk. Apply this Prisma schema [paste §03]. Wire Clerk so a new signup auto-creates a Workspace and joins the User to it. Add a <code>/dashboard</code> route protected by Clerk."</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> <code>DATABASE_URL</code> · <code>DIRECT_URL</code> · Clerk publishable + secret keys.</p>
       <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> sign-up → workspace created → land on empty <code>/dashboard</code>. DB has all V1 tables.</p>
     </div>
   </div>
 
-  <!-- WEEK 2 -->
+  <!-- STAGE 2 -->
   <div class="week-row build">
-    <div class="when">Jun 22–28<br/>Week 2</div>
+    <div class="when">Stage 2</div>
     <div class="what">
-      <strong>WhatsApp Cloud API — webhook + send + ingest</strong>
+      <strong>WhatsApp End-to-End + Idempotency</strong>
+      <p><strong>Goal:</strong> a real WA message hits a webhook, lands in the DB as a Contact + Conversation + Message, and the dashboard can send a reply back.</p>
       <ul class="clean">
-        <li>Webhook route at <code>/api/webhooks/whatsapp</code> — GET (verify) + POST (ingest)</li>
-        <li><code>ingestMessage()</code> service — finds-or-creates Contact, finds-or-creates Conversation, inserts Message</li>
-        <li><code>sendWhatsApp()</code> service wrapping <code>POST graph.facebook.com/v20.0/&lt;phone-id&gt;/messages</code></li>
-        <li>If Meta hasn't approved yet — use the test number Meta gives every developer in sandbox mode</li>
+        <li>Webhook route for WhatsApp Cloud API (GET verify + POST ingest)</li>
+        <li><code>ingestMessage()</code> service — find-or-create Contact + Conversation, insert Message, idempotent on Meta's message ID</li>
+        <li>Outbound send wrapper for the Graph API</li>
+        <li>If Meta hasn't approved yet — use Meta's developer sandbox test number to keep moving</li>
       </ul>
-      <pre><code>// app/api/webhooks/whatsapp/route.ts
-export async function GET(req: NextRequest) {
-  const p = req.nextUrl.searchParams;
-  if (p.get('hub.mode') === 'subscribe'
-      &amp;&amp; p.get('hub.verify_token') === process.env.META_VERIFY_TOKEN) {
-    return new NextResponse(p.get('hub.challenge'), { status: 200 });
-  }
-  return new NextResponse('forbidden', { status: 403 });
-}
-
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const change = body.entry?.[0]?.changes?.[0]?.value;
-  const msg = change?.messages?.[0];
-  if (!msg) return NextResponse.json({ ok: true });
-
-  await ingestMessage({
-    channel: 'WHATSAPP',
-    externalId: msg.id,
-    from: msg.from,
-    body: msg.text?.body,
-    phoneNumberId: change.metadata.phone_number_id,
-  });
-  return NextResponse.json({ ok: true });
-}</code></pre>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> we text the test WA number from a real phone → the message appears in the DB tagged to a fresh Contact + Conversation.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> Meta App ID + App Secret · Verify Token · WhatsApp Phone Number ID · Access Token. <em>(Skip live test if Meta App Review isn't back yet — use sandbox.)</em></p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> text the test WA number from a real phone → message appears in the DB attached to a fresh Contact + Conversation.</p>
     </div>
   </div>
 
-  <!-- WEEK 3 -->
+  <!-- STAGE 3 -->
   <div class="week-row build">
-    <div class="when">Jun 29–Jul 5<br/>Week 3</div>
+    <div class="when">Stage 3</div>
     <div class="what">
-      <strong>Unified Inbox UI + Channel-connector abstraction</strong>
+      <strong>Unified Inbox UI + IG + Messenger Connectors</strong>
+      <p><strong>Goal:</strong> the dashboard shows all conversations across all 3 Meta channels in one view, and replies send back through the right channel.</p>
       <ul class="clean">
-        <li>Conversation list (left rail) — grouped by Contact, latest message preview, unread badge</li>
-        <li>Open conversation pane — message thread, reply box, channel-aware (WA / IG / Messenger / TikTok)</li>
-        <li>Channel-aware: same UI, just badges the channel each message came in on</li>
-        <li>Define <code>ChannelConnector</code> TS interface — every channel implements it the same way</li>
+        <li>Conversation list (left rail) · open thread (right pane) · reply box</li>
+        <li>Channel-aware badges so the agent sees which channel each message arrived on</li>
+        <li>Instagram + Messenger connectors plug into the same channel-connector interface as WhatsApp</li>
+        <li>Cross-channel Contact merging (one Contact, multiple channel handles)</li>
       </ul>
-      <pre><code>// lib/channels/index.ts
-export interface ChannelConnector {
-  channel: Channel;
-  verifyWebhook(req: NextRequest): Promise&lt;Response&gt;;
-  parseInbound(payload: any): InboundMessage[];
-  send(workspaceId: string, to: string, body: string): Promise&lt;{ externalId: string }&gt;;
-}
-
-// One file per channel: whatsapp.ts, instagram.ts, messenger.ts, tiktok.ts
-// All export `const whatsappConnector: ChannelConnector = { ... }`
-// The webhook route just looks up the connector by channel param.</code></pre>
-      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;"><strong>Claude Code prompt:</strong> "Build the unified inbox UI using shadcn components. Left rail = conversation list (paginated, latest first). Right pane = open conversation with infinite-scroll up. Bottom = reply textarea + send button. Use React Server Components where possible. The Contact + Message + Conversation models are in <code>prisma/schema.prisma</code>."</p>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> we can reply to a WA message from the dashboard UI and the customer sees the reply on their phone.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> IG Business Account ID · Page Access Token (Messenger).</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> a customer DMs us on IG → same Contact card as their existing WA Contact, both threads visible in one timeline.</p>
     </div>
   </div>
 
-  <!-- WEEK 4 -->
+  <!-- STAGE 4 -->
+  <div class="week-row ai">
+    <div class="when">Stage 4</div>
+    <div class="what">
+      <strong>AI Chatbot Engine</strong>
+      <p><strong>Goal:</strong> every inbound message gets classified by Claude against the workspace's FAQ library and auto-replies with the matching fixed reply, or hands off to a human.</p>
+      <ul class="clean">
+        <li>Intent classifier service calling the Claude API on every inbound message</li>
+        <li>If matched → fetch the workspace's <code>Reply</code> for that intent + language, send via the channel connector, mark message as <code>sentByAI</code></li>
+        <li>If no match → don't reply, flag conversation as <code>HANDED_OFF</code>, notify the owner</li>
+        <li>Log every classification so we can tune the prompt later</li>
+      </ul>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> <code>ANTHROPIC_API_KEY</code>.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> load the test WA number with a 10-reply FAQ library, fire 10 inbound messages — at least 8 get the right auto-reply, the other 2 trigger HANDOFF.</p>
+    </div>
+  </div>
+
+  <!-- STAGE 5 -->
+  <div class="week-row ai">
+    <div class="when">Stage 5</div>
+    <div class="what">
+      <strong>Setup Wizard + FAQ Library + Vertical Presets <em>(highest-leverage stage)</em></strong>
+      <p><strong>Goal:</strong> a non-technical business owner can go from signup to "bot is replying" in under 60 minutes, without any help.</p>
+      <ul class="clean">
+        <li>Multi-step wizard — business name → vertical → working hours → services → tags → FAQ replies</li>
+        <li>FAQ Library editor — list of intents, click to edit reply, multi-language fields</li>
+        <li>Vertical presets (clinic · retail · education · auto · real estate) — pre-populate the FAQ library with sane starter replies</li>
+        <li>Server-side validation on every submitted field</li>
+      </ul>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> none new — uses Anthropic + DB from prior stages.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> Mahmoud (non-engineer) can complete the wizard for a fake clinic in under 60 minutes without help.</p>
+    </div>
+  </div>
+
+  <!-- STAGE 6 -->
   <div class="week-row build">
-    <div class="when">Jul 6–12<br/>Week 4</div>
+    <div class="when">Stage 6</div>
     <div class="what">
-      <strong>Plug in Instagram + Messenger + TikTok (as approvals land)</strong>
+      <strong>Calendar + Booking + Reminders</strong>
+      <p><strong>Goal:</strong> a customer DMs "I want to book", the bot offers slots, the customer picks one, an appointment lands in the DB, the owner gets an email, and a reminder fires before the appointment.</p>
       <ul class="clean">
-        <li>Implement <code>instagramConnector</code> — uses the same Graph API base as WhatsApp, different endpoint + token scope</li>
-        <li>Implement <code>messengerConnector</code> — same as IG, different page-access-token</li>
-        <li>Implement <code>tiktokConnector</code> — TikTok Business Messaging API (REST)</li>
-        <li>Add <code>ChannelLink</code> rows so one Contact merges across channels (key on phone for WA, IG handle for IG, etc.)</li>
-        <li>Per-channel webhook routes: <code>/api/webhooks/instagram</code>, <code>/api/webhooks/messenger</code>, <code>/api/webhooks/tiktok</code></li>
+        <li>Working-hours editor per workspace</li>
+        <li>Slot generator (background job, nightly, 30 days ahead)</li>
+        <li>New <code>BOOK</code> intent → bot replies with next 5 free slots → customer picks → appointment created → slot marked booked → owner email</li>
+        <li>Reminder job (hourly) — fires pre-appointment reminders on the right channel</li>
       </ul>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> a customer DMs us on IG → same Contact card in the dashboard as their existing WA Contact, both threads visible.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> <code>RESEND_API_KEY</code> · Inngest Event Key + Signing Key.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> end-to-end booking flow works on a real phone: DM → pick slot → appointment exists → reminder arrives 24h before → owner email confirmed.</p>
     </div>
   </div>
 
-  <!-- WEEK 5 -->
+  <!-- STAGE 7 -->
   <div class="week-row ai">
-    <div class="when">Jul 13–19<br/>Week 5</div>
+    <div class="when">Stage 7</div>
     <div class="what">
-      <strong>AI Chatbot — intent classification + fixed-reply matching</strong>
+      <strong>Mini CRM + Tags + Custom Follow-Up Rules</strong>
+      <p><strong>Goal:</strong> every conversation rolls up to a Contact with full history, and the business can set no-code follow-up rules ("if customer asked price and didn't book in 24h, send win-back reply X").</p>
       <ul class="clean">
-        <li>On every inbound message: classify the intent with Claude API against the workspace's <code>Reply</code> library</li>
-        <li>If matched → fetch the matching <code>Reply</code> for that intent + language, send it back via the channel connector, mark <code>Message.sentByAI = true</code></li>
-        <li>If no match → don't reply, flag conversation as <code>HANDED_OFF</code>, notify owner (email + dashboard badge)</li>
-        <li>Track all classifications in a <code>ClassificationLog</code> table so we can tune the prompt over time</li>
+        <li>Contact detail page — unified timeline of messages, bookings, notes, tag changes</li>
+        <li>Tag system — manual + auto-tag rules (source-based, intent-based)</li>
+        <li>Rule Builder UI — pick a trigger, a delay, and a reply from the FAQ library</li>
+        <li>Rules engine job — evaluates enabled rules against eligible conversations every 15 min</li>
       </ul>
-      <pre><code>// lib/ai/classifyIntent.ts
-import Anthropic from '@anthropic-ai/sdk';
-const claude = new Anthropic();
-
-export async function classifyIntent(
-  message: string,
-  library: Reply[]
-): Promise&lt;{ intent: string; confidence: 'high' | 'low' }&gt; {
-  const intents = library.map(r =&gt; r.intent).join(', ');
-  const result = await claude.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 64,
-    system: `You classify customer DMs into ONE of these intents: ${intents}.
-Reply with ONLY the intent name. If none match clearly, reply HANDOFF.
-The customer's message may be in any language — match the intent regardless of language.`,
-    messages: [{ role: 'user', content: message }],
-  });
-  const intent = result.content[0].type === 'text'
-    ? result.content[0].text.trim().toUpperCase()
-    : 'HANDOFF';
-  return {
-    intent,
-    confidence: intent === 'HANDOFF' ? 'low' : 'high',
-  };
-}</code></pre>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> test WA number is loaded with a 10-reply FAQ library → we send 10 inbound messages → at least 8 get the right auto-reply, the other 2 trigger HANDOFF.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> none new.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> a rule like "no booking within 24h after price intent → send win-back reply" fires correctly within 16 min of becoming eligible.</p>
     </div>
   </div>
 
-  <!-- WEEK 6 -->
+  <!-- STAGE 8 -->
   <div class="week-row ai">
-    <div class="when">Jul 20–26<br/>Week 6</div>
+    <div class="when">Stage 8</div>
     <div class="what">
-      <strong>Setup Wizard + FAQ Library editor</strong>
+      <strong>Notes + Quick Replies + Business Hours + Analytics <em>(FEATURE FREEZE)</em></strong>
+      <p><strong>Goal:</strong> close out the last UX features and lock the V1 surface — no new scope after this stage.</p>
       <ul class="clean">
-        <li>Multi-step wizard: business name → vertical → working hours → services → tags → FAQ replies</li>
-        <li>Server-validated with Zod, written straight into the DB</li>
-        <li>FAQ Library editor: list of intents, click to edit the reply (with multi-language fields — business picks which languages it supports)</li>
-        <li>Vertical presets — pre-fill the FAQ library with starter replies per vertical (clinic / retail / education / auto / real-estate)</li>
+        <li>Private notes on conversations (internal-only, hidden from customer)</li>
+        <li>Quick replies — per-agent text shortcuts that paste saved snippets into the textarea</li>
+        <li>Business-hours / out-of-office auto-reply — outside hours, send a custom OOO message instead of running the classifier</li>
+        <li>Basic Analytics dashboard — 6 counter cards: messages answered, bookings made, conversion rate, top-requested items, channel performance, handoff cases</li>
       </ul>
-      <pre><code>// lib/validation/setup.ts
-import { z } from 'zod';
-
-export const SetupSchema = z.object({
-  businessName: z.string().min(2),
-  vertical: z.enum(['clinic','retail','education','auto','realestate','other']),
-  workingHours: z.array(z.object({
-    day: z.enum(['mon','tue','wed','thu','fri','sat','sun']),
-    open: z.string().regex(/^\d{2}:\d{2}$/),
-    close: z.string().regex(/^\d{2}:\d{2}$/),
-  })),
-  services: z.array(z.object({
-    name: z.string(),
-    durationMinutes: z.number().int().positive(),
-    priceFrom: z.string().optional(),
-  })),
-  faqs: z.array(z.object({
-    intent: z.string(),
-    // language-keyed replies, e.g. { en: "...", es: "...", pt: "..." }
-    replies: z.record(z.string(), z.string()),
-  })),
-  primaryLanguage: z.string().default('en'),  // BCP-47 code
-});</code></pre>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> Mahmoud (a non-engineer) can complete the wizard for a fake clinic in under 60 minutes without help.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> none new.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> all 22 V1 features check off · the Setup Wizard is the only path a new business needs.</p>
     </div>
   </div>
 
-  <!-- WEEK 7 -->
-  <div class="week-row build">
-    <div class="when">Jul 27–Aug 2<br/>Week 7</div>
-    <div class="what">
-      <strong>Calendar + Booking flow + Reminders</strong>
-      <ul class="clean">
-        <li>Working-hours editor (per workspace, per weekday)</li>
-        <li>Slot generator — background job runs nightly, generates <code>AVAILABLE</code> slots for next 30 days</li>
-        <li>New intent: <code>BOOK</code>. When matched, bot replies with a WA interactive list of next 5 free slots</li>
-        <li>Customer picks slot → confirm appointment → mark slot <code>BOOKED</code> → email owner via Resend</li>
-        <li>Reminder cron (Vercel) — runs hourly, sends pre-appointment reminders for any <code>Appointment</code> whose reminder time has passed</li>
-      </ul>
-      <pre><code>// app/api/cron/reminders/route.ts
-export const dynamic = 'force-dynamic';
-
-export async function GET(req: NextRequest) {
-  if (req.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`)
-    return new NextResponse('unauthorized', { status: 401 });
-
-  const due = await db.appointment.findMany({
-    where: {
-      reminderSent: false,
-      status: 'CONFIRMED',
-      slot: { startAt: { lte: hoursFromNow(24) } },
-    },
-    include: { contact: true, slot: true, workspace: true },
-  });
-
-  for (const appt of due) {
-    await sendWhatsAppTemplate({
-      workspaceId: appt.workspaceId,
-      to: appt.contact.phone!,
-      template: 'appointment_reminder',
-      vars: [appt.contact.name ?? '', formatDate(appt.slot.startAt)],
-    });
-    await db.appointment.update({
-      where: { id: appt.id }, data: { reminderSent: true },
-    });
-  }
-  return NextResponse.json({ sent: due.length });
-}</code></pre>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> end-to-end booking — DM "I want to book" → bot replies with slots → pick one → appointment in DB → reminder sent 24h before → owner gets email confirmation.</p>
-    </div>
-  </div>
-
-  <!-- WEEK 8 -->
-  <div class="week-row ai">
-    <div class="when">Aug 3–9<br/>Week 8</div>
-    <div class="what">
-      <strong>Mini CRM polish + Custom Follow-Up Rules + Tags + Auto-tagging</strong>
-      <ul class="clean">
-        <li>Contact detail page — full unified timeline (messages, bookings, notes, tag changes)</li>
-        <li>Tag system: manual tags + auto-tag rules ("source = Instagram Ad" → tag <code>IG-Lead</code>)</li>
-        <li>Custom Follow-Up Rules builder — no-code UI: trigger (e.g. "no booking within 24h after price intent") → delay → reply from library</li>
-        <li>Rules engine cron — runs every 15 minutes, evaluates all enabled rules against eligible conversations</li>
-      </ul>
-      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;"><strong>Claude Code prompt:</strong> "Build a no-code Rule Builder UI. A Rule has: trigger (one of: NO_BOOKING_WITHIN, MESSAGE_INTENT_MATCHED, APPT_NO_SHOW), parameters (hours, intent name), delay, and replyId from the workspace FAQ library. Persist as <code>Rule</code> rows. Build a cron at <code>/api/cron/rules</code> that runs every 15 min and fires due rules."</p>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> set up "if customer asked price and didn't book in 24h, send win-back reply X" → it fires correctly in &lt; 16 min of being eligible.</p>
-    </div>
-  </div>
-
-  <!-- WEEK 9 -->
-  <div class="week-row ai">
-    <div class="when">Aug 10–16<br/>Week 9</div>
-    <div class="what">
-      <strong>Private Notes + Quick Replies + Business Hours + Analytics</strong>
-      <ul class="clean">
-        <li>Private Notes — internal-only notes on a Conversation, with author + timestamp, hidden from the customer</li>
-        <li>Quick Replies — per-agent shortcuts (<code>/price</code>, <code>/hours</code>) that paste a saved snippet into the textarea</li>
-        <li>Business-Hours / Out-of-Office auto-reply — admin sets weekly hours, outside them the bot sends a custom OOO message instead of running the intent classifier</li>
-        <li>Basic Analytics dashboard — 6 counters in cards: messages answered, bookings made, conversion rate, top-requested items, channel performance, handoff cases</li>
-        <li><strong>Feature freeze at end of week:</strong> all 17 V1 features check off · no new scope</li>
-      </ul>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> a checklist of all 17 features can be ticked off · the Setup Wizard is the only path a new business needs to go live.</p>
-    </div>
-  </div>
-
-  <!-- WEEK 10 -->
+  <!-- STAGE 9 -->
   <div class="week-row launch">
-    <div class="when">Aug 17–23<br/>Week 10</div>
+    <div class="when">Stage 9</div>
     <div class="what">
-      <strong>Billing + Polish + Stabilize</strong>
+      <strong>Stripe Billing + Plan Gating + Trial + Demo Data</strong>
+      <p><strong>Goal:</strong> real money can be charged, plans gate features, and new signups see a believable demo of the product on first load.</p>
       <ul class="clean">
-        <li>Stripe subscription integration — $15 / $59 / $199 / Custom plans · 14-day free trial logic · webhook handler for sub events</li>
-        <li>Contact Packs purchase flow (Stripe one-time payment)</li>
-        <li>PostHog event tracking on all key flows · Sentry catching errors</li>
-        <li>End-to-end self-test — Belal + Mahmoud onboard their own fake business, use it for 3 days, fix everything that breaks</li>
-        <li><strong>Bug squash:</strong> no new features, only fixes. P0/P1 must all be closed by end of week.</li>
+        <li>Stripe subscriptions ($15 / $59 / $199 / Custom) · webhook handler · 14-day trial logic</li>
+        <li>Plan gating — features visible/usable based on workspace plan</li>
+        <li>Contact Packs one-time purchase flow</li>
+        <li>Demo data seeder — every new workspace gets a "demo" Contact + Conversation so the empty state is never empty</li>
       </ul>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> a real Stripe checkout completes · webhook updates the Workspace plan · the 14-day trial countdown is visible on the dashboard.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> Stripe Secret Key + Webhook Secret · Stripe price IDs for each plan.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> a real Stripe checkout completes, the webhook updates the Workspace plan, and the trial countdown is visible on the dashboard.</p>
     </div>
   </div>
 
-  <!-- WEEK 11 -->
+  <!-- STAGE 10 -->
   <div class="week-row launch">
-    <div class="when">Aug 24–31<br/>Week 11</div>
+    <div class="when">Stage 10</div>
     <div class="what">
-      <strong>Soft pre-launch — dry-run with friendly accounts + final polish</strong>
+      <strong>Stabilize · Security · Marketing Site · Code Hygiene</strong>
+      <p><strong>Goal:</strong> production deploy on a custom domain, observability wired, security audit done, marketing site live.</p>
       <ul class="clean">
-        <li>Onboard 1–2 friendly businesses (not paying yet) — run them through the Setup Wizard end-to-end and watch where they stumble</li>
-        <li>Fix every UX papercut surfaced in the dry-run (no new features — only the friction we observed)</li>
-        <li>Lock the README + ops runbook (rotate Meta token · re-issue Anthropic key · roll DB credentials · how to manually retry a stuck webhook)</li>
-        <li>Final cron sanity check — reminders / rules / slot generator all firing on schedule for &gt; 48h with no errors in Sentry</li>
-        <li>Run the launch checklist (§07). Anything ☐ that isn't ☑ on Aug 31 → push the launch one more week, don't ship broken</li>
+        <li>Vercel production deploy locked to <code>main</code> · PR previews enabled · custom domain (<code>cowork.app</code>) live with SSL</li>
+        <li>PostHog tracking key events · Sentry catching errors · BetterStack uptime monitoring</li>
+        <li>Security pass — rate limits on webhooks, RLS-style scoping verified on every query, secrets rotated, <code>.env.example</code> documented</li>
+        <li>Marketing site — landing page, pricing, privacy/terms, signup CTA</li>
+        <li>Type-check + lint clean · Playwright e2e covering: signup → wizard → receive WA → bot replies → book → confirm</li>
       </ul>
-      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> every box in §07 is checked · 48h of clean cron runs · 1 friendly business successfully ran a full Setup Wizard → chat → booking flow on their own without help.</p>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> Vercel (GitHub connect) · PostHog project key · Sentry DSN · BetterStack token · custom domain DNS access.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> production URL responds, key flows tracked in PostHog, Sentry shows zero P0 errors, marketing site is live.</p>
     </div>
   </div>
 
-  <!-- LAUNCH -->
+  <!-- STAGE 11 -->
   <div class="week-row launch">
-    <div class="when">🚀 Sep 1<br/>LAUNCH</div>
+    <div class="when">Stage 11</div>
     <div class="what">
-      <strong>V1 LIVE</strong>
+      <strong>Private-beta Dry-Run + Final Polish</strong>
+      <p><strong>Goal:</strong> 1–2 friendly real businesses run through the Setup Wizard end-to-end and use the product for real conversations. Every UX papercut they hit gets fixed.</p>
       <ul class="clean">
-        <li>App is live · trial open · pricing page published</li>
-        <li>Code-side, the build is done — GTM &amp; first-customer onboarding take over (see main plan §05)</li>
+        <li>Onboard 1–2 friendly customers (not paying yet) — watch them go through the Setup Wizard with no help</li>
+        <li>Fix every friction point surfaced — no new features, only the papercuts</li>
+        <li>Ops runbook — how to rotate the Meta token, re-issue the Anthropic key, roll DB credentials, manually retry a stuck webhook</li>
+        <li>48-hour cron sanity check — reminders, rules, slot generator all firing cleanly with zero errors in Sentry</li>
       </ul>
+      <p style="font-size:12px; color:var(--muted); margin-top:6px;"><strong>Credentials you provide:</strong> none new — just the friendly customers' real Meta credentials when they sign up.</p>
+      <p style="font-size:11.5px; color:var(--brand); margin-top:4px;"><strong>Done when:</strong> at least one friendly business successfully runs Wizard → live chat → real booking on their own, AND the launch checklist (§04) is fully ticked.</p>
     </div>
   </div>
 
   <div class="callout">
-    <strong>~11 weeks total — Jun 15 → Sep 1.</strong> Buffer included. After Week 11 the codebase is stable enough to onboard real customers. <em>What happens after that — first design partners, onboarding, GTM — is covered in the main plan, not here.</em>
+    <strong>Continuous build mode.</strong> Stages move forward when the "Done when" gate is green — no calendar. After Stage 11, we open to paying customers.
   </div>
 </section>
 
-<!-- §05 CLAUDE CODE WORKFLOW -->
-<section id="claude">
-  <h2><span class="num">05</span>How we use Claude &amp; Claude Code — the workflow</h2>
-  <p class="section-sub">Two distinct roles. Don't confuse them.</p>
-
-  <div class="grid-2">
-    <div class="card">
-      <h4 style="color:var(--brand);">Claude (chat) — the architect</h4>
-      <ul class="clean">
-        <li>Use it for <strong>planning, design, prompts, debugging strategy</strong></li>
-        <li>Talk through schema decisions before writing migrations</li>
-        <li>Get second opinions on tricky API contracts</li>
-        <li>Generate prompts that Claude Code will then execute</li>
-        <li>Write product copy, FAQ-library seed content, marketing pages</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4 style="color:var(--accent);">Claude Code — the builder</h4>
-      <ul class="clean">
-        <li>Use it for <strong>actually writing the code</strong> — components, API routes, migrations, tests</li>
-        <li>Hand it the Prisma schema + the sprint task — it builds the feature</li>
-        <li>Run it in your terminal, point at the repo, let it iterate</li>
-        <li>Use it for refactors when scope shifts</li>
-        <li>Pair on every PR — write the prompt clearly, review the diff carefully</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3>The per-feature prompt pattern</h3>
-  <p>Every feature ships in 3 steps:</p>
-  <div class="callout">
-    <strong>Step 1 — Plan with Claude (chat):</strong> "Here's the V1 spec section for the booking calendar (paste §03 + sprint Week 5). What's the simplest implementation? Walk me through the file changes."<br/><br/>
-    <strong>Step 2 — Build with Claude Code:</strong> "Implement the booking calendar feature per this plan: [paste the plan from Step 1]. Repo conventions: Next.js App Router, Prisma, shadcn. Test it with a Playwright e2e flow."<br/><br/>
-    <strong>Step 3 — Review the diff:</strong> human reads every file Claude Code touched, runs the test, asks for fixes if needed. <strong>Never merge a Claude Code PR without reading it.</strong>
-  </div>
-
-  <h3>What humans do that Claude Code doesn't</h3>
-  <ul class="clean">
-    <li><strong>Customer conversations</strong> — Belal + Mahmoud personally onboard the first 20</li>
-    <li><strong>Decisions</strong> — schema shape, pricing, feature cuts, what's V1 vs V2</li>
-    <li><strong>Reviewing every diff</strong> — Claude Code is fast but not infallible</li>
-    <li><strong>Meta API approvals</strong> — the slowest part of V1 is paperwork, not code</li>
-    <li><strong>Demos + sales</strong> — humans sell to humans</li>
-  </ul>
-
-  <div class="callout green">
-    <strong>Honest expectation:</strong> Claude Code probably ships <strong>70–80%</strong> of the V1 codebase. The remaining 20–30% is human glue — schema decisions, prompt tuning, the actual onboarding UI being perfect, debugging weird Meta API edge cases. <em>Plan for both.</em>
-  </div>
-</section>
-
-<!-- §06 KICKOFF -->
-<section id="kickoff">
-  <h2><span class="num">06</span>The first 7 days — engineering kickoff (Jun 15–21)</h2>
-  <p class="section-sub">Belal's day-by-day. Mahmoud's GTM kickoff (brand, marketing site, prospect list, partner outreach) is in the main plan — out of scope here.</p>
-
-  <div class="card">
-    <h4 style="color:var(--accent);">Engineering — Jun 15–21</h4>
-    <ul class="clean">
-      <li><strong>Mon Jun 15 — morning:</strong> File all 4 Meta approvals (Business Verification, WhatsApp, IG, Messenger) + TikTok Business Messaging. Submit and move on.</li>
-      <li><strong>Mon Jun 15 — afternoon:</strong> Create Anthropic + GitHub + Vercel + Neon + Clerk + Resend + Sentry + PostHog accounts. Put all credentials in a shared 1Password vault.</li>
-      <li><strong>Tue Jun 16:</strong> <code>npx create-next-app</code> with TS + Tailwind + App Router. <code>shadcn init</code> + install base components. <code>prisma init</code>. First commit pushed to GitHub.</li>
-      <li><strong>Wed Jun 17:</strong> Paste the full Prisma schema (§03) and migrate it to Neon. Generate the client. Build a tiny <code>/db-test</code> route that lists workspaces to prove the connection.</li>
-      <li><strong>Thu Jun 18:</strong> Wire Clerk. New signup → middleware creates a Workspace + User record. Protected <code>/dashboard</code> route that says "Hello, {workspace.name}".</li>
-      <li><strong>Fri Jun 19:</strong> Scaffold the WhatsApp webhook (<code>/api/webhooks/whatsapp</code>) — GET verification + POST stub. Use ngrok to test the verification handshake from Meta even if approval isn't done.</li>
-      <li><strong>Sat–Sun Jun 20–21:</strong> Build the <code>ingestMessage()</code> service (find-or-create Contact + Conversation + Message). Build the inbox-UI shell with mock data so Week 2 can wire it to the real ingestion.</li>
-    </ul>
-  </div>
-
-  <div class="callout warn">
-    <strong>Don't block on Meta.</strong> Meta approvals take days to weeks. Don't wait. The first week's work — accounts, repo, schema, auth, webhook scaffold — needs nothing from Meta. By the time we need real WA sending (Week 2 end), approvals will be in flight; if not, Meta's developer sandbox has a free test phone number we use to keep moving.
-  </div>
-</section>
-
-<!-- §07 LAUNCH CHECKLIST -->
+<!-- §04 LAUNCH CHECKLIST -->
 <section id="launch">
-  <h2><span class="num">07</span>Code-ready checklist — must all be true to call V1 "done"</h2>
-  <p class="section-sub">Engineering gates only. Walk this list at end of Week 11 (Aug 31). Any unchecked box = ship is not real yet — push launch by a week, don't ship broken. <em>Customer onboarding, marketing site, and partner outreach are tracked in the main plan, not here.</em></p>
+  <h2><span class="num">04</span>Launch Checklist — must all be true to call V1 "done"</h2>
+  <p class="section-sub">Walk this list at the end of Stage 11. Any unchecked box = ship is not real yet. Don't ship broken.</p>
 
   <div class="card">
-    <h4 style="color:var(--brand);">Product (the 4 pillars)</h4>
+    <h4 style="color:var(--brand);">Product</h4>
     <ul class="clean">
-      <li>☐ All 4 pillars functional end-to-end on at least WhatsApp (the mandatory channel)</li>
-      <li>☐ Setup Wizard runs cleanly to completion with Zod-validated input</li>
-      <li>☐ A test business has been live in the system for 7+ days with real conversations</li>
-      <li>☐ Booking flow: customer DMs → bot replies → asks to book → picks slot → appointment created → reminder sent</li>
-      <li>☐ Mini CRM unifies: 5 test conversations across channels all appear as one Contact with full unified history</li>
-      <li>☐ All 17 V1 features check off (cross-reference §00)</li>
-      <li>☐ Zero P0 bugs open</li>
-    </ul>
-
-    <h4 style="color:var(--brand); margin-top:14px;">Infrastructure</h4>
-    <ul class="clean">
-      <li>☐ Sentry catching errors · PostHog tracking events on every key flow</li>
-      <li>☐ Vercel production deployment locked to <code>main</code> with PR previews</li>
-      <li>☐ Neon production DB has backups enabled (point-in-time)</li>
-      <li>☐ Custom domain live · SSL cert valid</li>
-      <li>☐ All cron jobs wired and authenticated with <code>CRON_SECRET</code> (reminders, rules engine, slot generator)</li>
-      <li>☐ Stripe + Tap live · $15 / $59 / $199 / Custom plans configured · webhook handler tested</li>
-      <li>☐ Resend sending: appointment reminders, booking confirmations, trial-end emails</li>
-      <li>☐ Rate limiting on webhook endpoints (Meta retries on 5xx)</li>
+      <li>☐ All 4 pillars functional end-to-end on at least WhatsApp (mandatory channel)</li>
+      <li>☐ Setup Wizard runs cleanly to completion · server-validated</li>
+      <li>☐ Booking flow works: DM → bot offers slots → pick → appointment → reminder → owner email</li>
+      <li>☐ Mini CRM unifies: 5 test conversations across channels appear as one Contact with full history</li>
+      <li>☐ All 22 V1 features check off · zero P0 bugs open</li>
+      <li>☐ At least one friendly business has been live for 7+ days with real conversations</li>
     </ul>
 
     <h4 style="color:var(--brand); margin-top:14px;">Channels</h4>
@@ -802,23 +482,33 @@ export async function GET(req: NextRequest) {
       <li>☐ WhatsApp Business API live (mandatory)</li>
       <li>☐ Instagram Graph API live (target — if not, soft-launch WA-only)</li>
       <li>☐ Messenger Platform live (target)</li>
-      <li>☐ TikTok Business Messaging live (stretch)</li>
-      <li>☐ Each channel connector verified independently with a real test message</li>
+      <li>☐ Each connector verified independently with a real test message</li>
+    </ul>
+
+    <h4 style="color:var(--brand); margin-top:14px;">Infrastructure</h4>
+    <ul class="clean">
+      <li>☐ Vercel production deploy locked to <code>main</code> · PR previews on</li>
+      <li>☐ Custom domain live · SSL valid</li>
+      <li>☐ Neon production DB has point-in-time backups enabled</li>
+      <li>☐ All background jobs wired and authenticated (reminders · rules · slot generator)</li>
+      <li>☐ Stripe live · plans configured · webhook handler tested</li>
+      <li>☐ Resend sending: reminders · booking confirmations · trial-end emails</li>
+      <li>☐ Rate limiting on webhook endpoints (Upstash)</li>
+      <li>☐ Sentry catching errors · PostHog tracking events · BetterStack uptime monitoring</li>
     </ul>
 
     <h4 style="color:var(--brand); margin-top:14px;">Code hygiene</h4>
     <ul class="clean">
-      <li>☐ <code>pnpm typecheck</code> clean</li>
-      <li>☐ <code>pnpm lint</code> clean</li>
-      <li>☐ At least Playwright tests covering: signup → Setup Wizard → receive WA → bot replies → book → confirm</li>
+      <li>☐ Type-check clean · lint clean</li>
+      <li>☐ Playwright e2e covering signup → wizard → receive WA → bot replies → book → confirm</li>
       <li>☐ All env vars documented in <code>.env.example</code></li>
-      <li>☐ README explains: setup, environment, deploy, common ops (rotate Meta token, etc.)</li>
+      <li>☐ Ops runbook explains: setup, environment, deploy, rotate-Meta-token, re-issue-Anthropic-key</li>
     </ul>
   </div>
 </section>
 
 <footer>
-  V1 Build Playbook · Engineering only · Kickoff Jun 15 → Launch Sep 1, 2026 · ~11-week sprint · Built with Claude + Claude Code
+  V1 Build Playbook · Continuous build mode · Founder + Claude Code · Ships when 11 stages green + 1–2 beta customers onboarded
   <br/><br/>
   <a class="back-link" href="index.html" style="margin-top:8px;">← Back to full plan</a>
 </footer>

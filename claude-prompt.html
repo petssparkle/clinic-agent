@@ -93,7 +93,7 @@
 <div class="hero">
   <span class="pill">Claude Code · Implementation Prompt · Ready Jun 15</span>
   <h1>The exact prompt <span>Claude Code uses to build V1.</span></h1>
-  <p class="lead">A locked, self-contained system prompt + 11 weekly task prompts. Save the full payload as <code style="background:rgba(255,255,255,0.10); color:#5eead4; padding:1px 7px;">CLAUDE.md</code> in the repo root — Claude Code auto-loads it on every session. Includes the project constitution, the master Prisma schema, 8 copy-paste code patterns (webhook, channel connector, intent classifier, plan gate, audit, cron, server action), and week-by-week deliverables with acceptance criteria.</p>
+  <p class="lead">A locked, self-contained system prompt with <strong>11 stages executed end-to-end as a single continuous build</strong> — no weekly pacing, no waiting for check-ins. Save the full payload as <code style="background:rgba(255,255,255,0.10); color:#5eead4; padding:1px 7px;">CLAUDE.md</code> in the repo root — Claude Code auto-loads it on every session. Includes the project constitution, the master Prisma schema, 8 copy-paste code patterns (webhook, channel connector, intent classifier, plan gate, audit, cron, server action), and per-stage deliverables with acceptance criteria.</p>
   <div class="cta-row">
     <a class="cta" href="CLAUDE.md" download="CLAUDE.md">⬇️ Download CLAUDE.md</a>
     <a class="cta alt" href="#how-to-use">How to use →</a>
@@ -103,23 +103,23 @@
 <!-- HOW TO USE -->
 <section id="how-to-use">
   <h2><span class="num">✦</span>How to use this prompt</h2>
-  <p class="section-sub">Three modes of use, depending on where you are in the project.</p>
+  <p class="section-sub">Continuous-build mode. One paste kicks off all 11 stages.</p>
 
   <div class="grid-2">
     <div class="card">
-      <h3>1 · Day 1 — paste into Claude Code</h3>
+      <h3>1 · Day 1 — paste once, walk away</h3>
       <ul class="clean">
         <li>Save <code>CLAUDE.md</code> to the repo root (Claude Code auto-reads it on every session).</li>
-        <li>Open Claude Code in the repo, run: <code>"Implement Week 1 deliverables per §9 of CLAUDE.md."</code></li>
-        <li>Review every diff before merging. Don't auto-accept.</li>
+        <li>Open Claude Code in the repo, paste the master prompt below (from §12 of <code>CLAUDE.md</code>).</li>
+        <li>Claude Code runs Stages 1 → 11 continuously, opening a PR per stage. Review each PR before merging.</li>
       </ul>
     </div>
     <div class="card">
-      <h3>2 · Each subsequent week</h3>
+      <h3>2 · When Claude Code pauses</h3>
       <ul class="clean">
-        <li>Open Claude Code. Confirm <code>CLAUDE.md</code> is still loaded.</li>
-        <li>Run: <code>"Implement Week N deliverables per §9 of CLAUDE.md. Cross-reference the schema in §5 and the patterns in §7."</code></li>
-        <li>Run the Acceptance Criteria checks at the end of each week.</li>
+        <li>It only pauses for (a) a missing credential, (b) a "STOP &amp; CONFIRM" step in §8, or (c) a genuine blocker.</li>
+        <li>Unblock → tell it to continue. It picks up the next stage automatically.</li>
+        <li>No weekly cadence. No "Week N" prompts.</li>
       </ul>
     </div>
     <div class="card">
@@ -139,6 +139,13 @@
       </ul>
     </div>
   </div>
+
+  <h3 style="margin-top:22px;">The master prompt (paste this into Claude Code)</h3>
+  <div class="code-block">
+    <span class="label">§12 · master prompt</span>
+    <button class="copy-btn" data-clip="master">Copy</button>
+    <pre><code id="code-master">Read CLAUDE.md fully. Execute §9 Stages 1 → 11 end-to-end as a single continuous build. After each stage, post a 5-line summary (what shipped, what tests passed, any deferred items), commit the stage as its own branch + PR, then automatically start the next stage. Pause only when (a) you need a credential or secret I haven't provided, (b) a step is marked "STOP &amp; CONFIRM" in §8, or (c) something is genuinely blocked. Never push directly to main. Open a PR per stage.</code></pre>
+  </div>
 </section>
 
 <!-- SECTION INDEX -->
@@ -157,11 +164,11 @@
       <tr><td>5</td><td>Master Prisma Schema</td><td>20 tables, all indexes, all enums. Apply as the Day-1 migration.</td></tr>
       <tr><td>6</td><td>Environment Variables</td><td>Full <code>.env</code> template — 30 vars.</td></tr>
       <tr><td>7</td><td>Key Code Patterns</td><td>8 copy-paste reference implementations.</td></tr>
-      <tr><td>8</td><td>The 11-Week Execution Plan</td><td>How to use §9 prompts week-by-week.</td></tr>
-      <tr><td>9</td><td>Per-Week Detailed Prompts</td><td>11 separate week blocks. Each has objectives, deliverables, acceptance criteria, testing, risks.</td></tr>
+      <tr><td>8</td><td>The 11-Stage Execution Plan</td><td>Stage order, dependencies, and STOP &amp; CONFIRM checkpoints.</td></tr>
+      <tr><td>9</td><td>Per-Stage Detailed Prompts</td><td>11 stage blocks. Each has objectives, deliverables, acceptance criteria, testing, risks.</td></tr>
       <tr><td>10</td><td>Acceptance Criteria &amp; Testing Standards</td><td>Definition of Done, test coverage targets, critical e2e flows.</td></tr>
       <tr><td>11</td><td>Anti-Patterns</td><td>9 patterns Claude Code is instructed to refuse.</td></tr>
-      <tr><td>12</td><td>How to Use This Prompt</td><td>Onboarding for new sessions.</td></tr>
+      <tr><td>12</td><td>How to Use This Prompt</td><td>Master prompt + onboarding for new sessions.</td></tr>
     </tbody>
   </table>
 </section>
@@ -372,26 +379,26 @@ export class PlanGateError extends Error {
   <p style="font-size:13px; color:var(--muted); margin-top:18px;">+ 3 more in <code>CLAUDE.md</code>: <strong>Audit logger</strong> (7.6), <strong>Inngest reminder cron</strong> (7.7), <strong>Server Action mutation pattern</strong> (7.8).</p>
 </section>
 
-<!-- WEEK BLOCKS -->
-<section id="weeks">
-  <h2><span class="num">📅</span>The 11 weekly prompts</h2>
-  <p class="section-sub">Each week is a self-contained block in §9. When starting Week N, paste the system context (Sections 0–7) + the Week N block. Acceptance criteria are concrete and testable.</p>
+<!-- STAGE BLOCKS -->
+<section id="stages">
+  <h2><span class="num">📅</span>The 11 stages</h2>
+  <p class="section-sub">Each stage is a self-contained block in §9 with objectives, deliverables, acceptance criteria. Claude Code runs them end-to-end — no weekly pacing.</p>
 
   <table>
-    <thead><tr><th>Wk</th><th>Dates</th><th>Focus</th><th>Acceptance criteria headline</th></tr></thead>
+    <thead><tr><th>#</th><th>Stage</th><th>Acceptance criteria headline</th></tr></thead>
     <tbody>
-      <tr><td><strong>1</strong></td><td>Jun 15–21</td><td>Foundations · repo · schema · auth · RLS</td><td>Two test workspaces; raw-SQL queries respect RLS isolation.</td></tr>
-      <tr><td><strong>2</strong></td><td>Jun 22–28</td><td>WA end-to-end · webhook idempotency · outbound queue</td><td>Real DM lands in DB once even after webhook replays 3×.</td></tr>
-      <tr><td><strong>3</strong></td><td>Jun 29–Jul 5</td><td>Unified Inbox UI · SWR polling · IG/Messenger connectors</td><td>Conversation list updates without F5 within 5s of inbound.</td></tr>
-      <tr><td><strong>4</strong></td><td>Jul 6–12</td><td>AI Chatbot engine · pre-classifier · cost-cap</td><td>10 test inbounds → ≥8 correct auto-replies, 2 HANDOFF.</td></tr>
-      <tr><td><strong>5</strong></td><td>Jul 13–19</td><td>Setup Wizard · vertical presets · FAQ editor</td><td><strong>Non-engineer completes wizard in &lt;20 min, zero help.</strong></td></tr>
-      <tr><td><strong>6</strong></td><td>Jul 20–26</td><td>Calendar · booking via interactive list · reminders cron</td><td>Full booking flow E2E; reminder fires once at the right time.</td></tr>
-      <tr><td><strong>7</strong></td><td>Jul 27–Aug 2</td><td>Mini CRM · tags · auto-tagging · Custom Follow-Up Rules</td><td>Rule fires within 16 min of trigger condition becoming true.</td></tr>
-      <tr><td><strong>8</strong></td><td>Aug 3–9</td><td>Notes · quick replies · business hours · analytics · <strong>feature freeze</strong></td><td>All 22 V1 features check off.</td></tr>
-      <tr><td><strong>9</strong></td><td>Aug 10–16</td><td>Stripe billing · plan gating · trial · demo data</td><td>Starter <code>curl POST</code> chatbot → 402 Plan Gate response.</td></tr>
-      <tr><td><strong>10</strong></td><td>Aug 17–23</td><td>Stabilize · security checklist · marketing site · code hygiene</td><td>Founders use the product 3 days, zero P0/P1 in Sentry.</td></tr>
-      <tr><td><strong>11</strong></td><td>Aug 24–31</td><td>Private-beta dry-run · final polish · GDPR export · launch checklist</td><td>1 friendly business onboards solo in &lt;20 min.</td></tr>
-      <tr style="background:linear-gradient(135deg, rgba(245,158,11,0.08), rgba(236,72,153,0.06));"><td><strong>🚀</strong></td><td><strong>Sep 1</strong></td><td><strong>Private Beta Launch</strong></td><td>5 design partners onboarded by founders in person.</td></tr>
+      <tr><td><strong>1</strong></td><td>Foundations &amp; Schema · repo · auth · RLS</td><td>Two test workspaces; raw-SQL queries respect RLS isolation.</td></tr>
+      <tr><td><strong>2</strong></td><td>WhatsApp Inbound + Outbound · webhook idempotency</td><td>Real DM lands in DB once even after webhook replays 3×.</td></tr>
+      <tr><td><strong>3</strong></td><td>Unified Inbox UI + IG + Messenger connectors</td><td>Conversation list updates without F5 within 5s of inbound.</td></tr>
+      <tr><td><strong>4</strong></td><td>AI Chatbot Engine · pre-classifier · cost-cap</td><td>10 test inbounds → ≥8 correct auto-replies, 2 HANDOFF.</td></tr>
+      <tr><td><strong>5</strong></td><td>Setup Wizard · FAQ Library · Vertical Presets</td><td><strong>Non-engineer completes wizard in &lt;20 min, zero help.</strong></td></tr>
+      <tr><td><strong>6</strong></td><td>Calendar + Booking + Reminders</td><td>Full booking flow E2E; reminder fires once at the right time.</td></tr>
+      <tr><td><strong>7</strong></td><td>Mini CRM · Tags · Custom Follow-Up Rules</td><td>Rule fires within 16 min of trigger condition becoming true.</td></tr>
+      <tr><td><strong>8</strong></td><td>Notes · Quick Replies · Business Hours · Analytics · <strong>feature freeze</strong></td><td>All 22 V1 features check off.</td></tr>
+      <tr><td><strong>9</strong></td><td>Stripe Billing · Plan Gating · Trial · Demo Data</td><td>Starter <code>curl POST</code> chatbot → 402 Plan Gate response.</td></tr>
+      <tr><td><strong>10</strong></td><td>Security · Marketing site · Ops Hygiene</td><td>Founders use the product 3 days, zero P0/P1 in Sentry.</td></tr>
+      <tr><td><strong>11</strong></td><td>Final Polish + Launch Checklist · GDPR export</td><td>1 friendly business onboards solo in &lt;20 min.</td></tr>
+      <tr style="background:linear-gradient(135deg, rgba(245,158,11,0.08), rgba(236,72,153,0.06));"><td><strong>🚀</strong></td><td><strong>Sep 1 · Private Beta Launch</strong></td><td>5 design partners onboarded by founders in person.</td></tr>
     </tbody>
   </table>
 </section>
@@ -422,13 +429,13 @@ export class PlanGateError extends Error {
   <h2><span class="num">🚀</span>What happens after you paste this prompt</h2>
 
   <div class="callout green">
-    <strong>Day 1 (Jun 15 morning).</strong> Belal saves <code>CLAUDE.md</code> to a fresh GitHub repo. Files Meta + TikTok approvals. Opens Anthropic, Vercel, Neon, Clerk, Resend accounts. Pastes <em>"Implement Week 1 deliverables per §9 of CLAUDE.md"</em> into Claude Code. Reviews the PR Claude Code produces by end of day.
+    <strong>Day 1 (Jun 15 morning).</strong> Belal saves <code>CLAUDE.md</code> to a fresh GitHub repo. Files Meta approval. Opens Anthropic, Vercel, Neon, Clerk, Resend accounts. Pastes the §12 master prompt into Claude Code. Reviews the Stage 1 PR by end of day.
   </div>
   <div class="callout">
-    <strong>Day 2–7.</strong> Claude Code progresses through Week 1: bootstrap repo, install deps, apply schema, enable RLS, wire Clerk. Belal reviews every diff before merging. By end of Week 1, the Week 1 acceptance criteria are all green.
+    <strong>Stages roll continuously.</strong> Claude Code ships each stage as a branch + PR with a 5-line summary, then auto-starts the next. Belal reviews every diff before merging. Pauses happen only on credentials, STOP &amp; CONFIRM steps, or genuine blockers.
   </div>
   <div class="callout warn">
-    <strong>Every Friday.</strong> Belal runs the week's Acceptance Criteria. If any fail → don't start the next week's prompt; close gaps first. If all pass → tag the release (<code>v0.W1</code>), commit progress to <code>CLAUDE.md</code> changelog, start Week N+1.
+    <strong>Per stage gate.</strong> Don't merge until that stage's Acceptance Criteria pass. If any fail → close gaps first. If all pass → merge, tag, let Claude Code roll into the next stage.
   </div>
   <div class="callout green">
     <strong>Sep 1.</strong> Private beta launches with 5 design partners. Belal + Mahmoud onboard them in person over the first 2 weeks. Sentry stays clean. Mini CRM populates. First bookings land. Case-study numbers start accruing.
