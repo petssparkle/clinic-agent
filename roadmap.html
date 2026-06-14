@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cowork · Roadmap & Growth Plan 2026–2027</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #6c63ff;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --dim: #555570;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 52px;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color .2s, background .2s;
+  }
+  nav a:hover, nav a.active { color: var(--text); background: var(--surface2); }
+  nav .back {
+    color: var(--accent2);
+    margin-right: 12px;
+    border: 1px solid var(--border);
+  }
+  nav .sep { color: var(--border); font-size: 18px; user-select: none; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 48px 64px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.75;
+  }
+
+  /* ── SECTION ── */
+  section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  /* ── PHASE CARDS ── */
+  .phase-grid {
+    display: grid;
+    gap: 16px;
+  }
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 3px 0 0 3px;
+  }
+  .phase-card.build::before { background: var(--accent); }
+  .phase-card.test::before { background: var(--amber); }
+  .phase-card.launch::before { background: var(--green); }
+  .phase-card.grow::before { background: var(--blue); }
+  .phase-card.invest::before { background: var(--accent2); }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .phase-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .build .phase-badge { background: rgba(108,99,255,.15); color: var(--accent); }
+  .test .phase-badge { background: rgba(251,191,36,.12); color: var(--amber); }
+  .launch .phase-badge { background: rgba(52,211,153,.12); color: var(--green); }
+  .grow .phase-badge { background: rgba(96,165,250,.12); color: var(--blue); }
+  .invest .phase-badge { background: rgba(167,139,250,.12); color: var(--accent2); }
+
+  .phase-title { font-size: 19px; font-weight: 700; line-height: 1.3; }
+  .phase-date { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .phase-body {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .phase-body strong { color: var(--text); font-weight: 600; }
+
+  .phase-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ── ROLES ── */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .roles-grid { grid-template-columns: 1fr; } }
+
+  .role-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .role-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .role-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .role-title {
+    font-size: 12px;
+    color: var(--accent2);
+    font-weight: 500;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .role-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* ── CLIENTS TABLE ── */
+  .client-months {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 560px) { .client-months { grid-template-columns: 1fr 1fr; } }
+
+  .month-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .month-name { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+  .month-count { font-size: 36px; font-weight: 800; color: var(--green); line-height: 1; margin-bottom: 4px; }
+  .month-label { font-size: 11px; color: var(--dim); }
+  .month-total { font-size: 13px; color: var(--accent2); font-weight: 600; margin-top: 8px; }
+
+  /* ── EQUITY ── */
+  .equity-period {
+    margin-bottom: 32px;
+  }
+  .equity-period-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .equity-bars { display: grid; gap: 12px; }
+  .equity-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 48px;
+    align-items: center;
+    gap: 12px;
+  }
+  .equity-name { font-size: 13px; font-weight: 600; }
+  .equity-bar-wrap {
+    background: var(--surface2);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .equity-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .4s ease;
+  }
+  .equity-pct { font-size: 13px; font-weight: 700; text-align: right; }
+
+  /* ── INVESTMENT ── */
+  .invest-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .invest-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .invest-row:last-child { border-bottom: none; }
+  .invest-row.header {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    background: var(--surface2);
+  }
+  .invest-row.total {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface2);
+  }
+  .invest-amount { color: var(--accent2); font-weight: 600; white-space: nowrap; }
+  .invest-row.total .invest-amount { color: var(--green); font-size: 16px; }
+
+  /* ── ROADMAP VISUAL ── */
+  #roadmap-visual {
+    padding: 0 48px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .roadmap-wrap {
+    position: relative;
+    padding: 20px 0 0;
+  }
+
+  /* vertical spine */
+  .roadmap-spine {
+    position: absolute;
+    left: 20px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--green), var(--accent2));
+    border-radius: 2px;
+  }
+
+  .roadmap-item {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .roadmap-node {
+    flex-shrink: 0;
+    width: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .roadmap-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid var(--bg);
+    margin-top: 14px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 0 2px currentColor;
+  }
+  .roadmap-dot.done { background: var(--green); color: var(--green); }
+  .roadmap-dot.active { background: var(--accent); color: var(--accent); animation: pulse 2s infinite; }
+  .roadmap-dot.upcoming { background: var(--surface2); color: var(--border); }
+  .roadmap-dot.key { background: var(--amber); color: var(--amber); }
+  .roadmap-dot.invest { background: var(--accent2); color: var(--accent2); }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(108,99,255,.2); }
+    50% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 10px rgba(108,99,255,.1); }
+  }
+
+  .roadmap-content {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .roadmap-content:hover { border-color: var(--accent); transition: border-color .2s; }
+  .roadmap-month {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .roadmap-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .roadmap-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .roadmap-desc strong { color: var(--text); }
+  .roadmap-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .rpill {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: .04em;
+  }
+  .rpill.green { background: rgba(52,211,153,.12); color: var(--green); }
+  .rpill.purple { background: rgba(108,99,255,.12); color: var(--accent); }
+  .rpill.amber { background: rgba(251,191,36,.1); color: var(--amber); }
+  .rpill.blue { background: rgba(96,165,250,.1); color: var(--blue); }
+  .rpill.violet { background: rgba(167,139,250,.12); color: var(--accent2); }
+
+  /* ── OUTREACH ── */
+  .outreach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 640px) { .outreach-grid { grid-template-columns: 1fr; } }
+  .outreach-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .outreach-icon { font-size: 22px; margin-bottom: 8px; }
+  .outreach-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .outreach-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: rgba(108,99,255,.08);
+    border: 1px solid rgba(108,99,255,.25);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .callout strong { color: var(--text); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    font-size: 12px;
+    color: var(--dim);
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+
+  /* ── UTIL ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 64px; }
+  .mt16 { margin-top: 16px; }
+  .mt24 { margin-top: 24px; }
+  .mt32 { margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="back">← Main Plan</a>
+  <span class="sep">|</span>
+  <a href="#phases">Phases</a>
+  <a href="#roles">Roles</a>
+  <a href="#clients">Clients</a>
+  <a href="#equity">Equity</a>
+  <a href="#investment">Investment</a>
+  <a href="#outreach">Outreach</a>
+  <a href="#roadmap-visual">Timeline</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Cowork · Updated Plan · June 2026</div>
+  <h1>The Real<br /><span>Roadmap.</span></h1>
+  <p>No outside investment needed until January 2027. This is how we build, test, launch, and get to 10 paying clients before spending a single dollar we don't have.</p>
+</div>
+
+<!-- PHASES -->
+<section id="phases">
+  <div class="section-label">01 — The Plan</div>
+  <h2>Five Phases to Profitability</h2>
+
+  <div class="phase-grid">
+
+    <div class="phase-card build">
+      <div class="phase-header">
+        <div>
+          <div class="phase-badge">Phase 1 · Active</div>
+        </div>
+        <div>
+          <div class="phase-title">Build the Product</div>
+          <div class="phase-date">June → July 2026</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        We are currently here. June and July are dedicated entirely to finishing the product — making sure every feature is solid, stable, and ready for real users. The unified inbox, AI chatbot, booking calendar, mini-CRM, and automations engine all need to be production-ready before we put a real client on it.<br /><br />
+        <strong>Who does what:</strong> 50/50 between Mahmoud and Claude. Everything — building, fixing, testing, iterating — is split equally. No investor needed. No salary. Just ship.
+      </div>
+      <div class="phase-tags">
+        <span class="tag">Unified Inbox</span>
+        <span class="tag">AI Chatbot</span>
+        <span class="tag">Booking Calendar</span>
+        <span class="tag">Mini CRM</span>
+        <span class="tag">Stripe Billing</span>
+        <span class="tag">50/50 Mahmoud + Claude</span>
+      </div>
+    </div>
+
+    <div class="phase-card test">
+      <div class="phase-header">
+        <div>
+          <div class="phase-badge">Phase 2 · August</div>
+        </div>
+        <div>
+          <div class="phase-title">Beta Test with Ahmad's Clinic</div>
+          <div class="phase-date">August 2026 — Full Month</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        August is one full month of real-world testing. We hand the product to <strong>Ahmad's clinic</strong> as our first beta user. He uses it daily — real patients, real DMs, real bookings. We watch everything that breaks, everything that confuses, everything that needs polish.<br /><br />
+        Every bug that surfaces gets fixed. Every confusing UX moment gets simplified. This is not soft feedback — this is production-level stress testing on a real business. By August 31st, the product must be ready for strangers to use without us holding their hand.<br /><br />
+        <strong>Still 50/50 Mahmoud + Claude</strong> through the end of August — all fixes, adjustments, and refinements are shared equally.
+      </div>
+      <div class="phase-tags">
+        <span class="tag">Ahmad's Clinic · Beta Tester</span>
+        <span class="tag">Bug Fixes</span>
+        <span class="tag">UX Polish</span>
+        <span class="tag">Real DMs + Bookings</span>
+        <span class="tag">50/50 Mahmoud + Claude</span>
+      </div>
+    </div>
+
+    <div class="phase-card launch">
+      <div class="phase-header">
+        <div>
+          <div class="phase-badge">Phase 3 · September 1</div>
+        </div>
+        <div>
+          <div class="phase-title">Go Live 🚀</div>
+          <div class="phase-date">September 1, 2026 — Day One</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        September 1st is launch day. If everything from August testing is solid, we open the product to paying clients. Stripe is live. The pricing tiers are live. The product is live.<br /><br />
+        <strong>No external investment needed to reach this point.</strong> We operate under an existing business entity until we have our first 10 clients — no need to form a new company or spend money on incorporation before we've proven the market.<br /><br />
+        From September onward, roles split. Each person owns a specific lane.
+      </div>
+      <div class="phase-tags">
+        <span class="tag">Stripe Live</span>
+        <span class="tag">Public Launch</span>
+        <span class="tag">Existing Entity</span>
+        <span class="tag">Zero Investment Needed</span>
+      </div>
+    </div>
+
+    <div class="phase-card grow">
+      <div class="phase-header">
+        <div>
+          <div class="phase-badge">Phase 4 · Sept → Dec</div>
+        </div>
+        <div>
+          <div class="phase-title">Get the First 10 Clients</div>
+          <div class="phase-date">September → December 2026</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        Four months to reach 10 paying clients. Slow and deliberate — we're not chasing vanity numbers, we're building a client base we can actually serve well and learn from.<br /><br />
+        <strong>3 clients in September · 3 in October · 3 in November · 4 in December.</strong> That's 10 clients by year-end. By this point we still haven't needed outside investment — every cost has been covered by the team's sweat equity and whatever early revenue starts coming in.
+      </div>
+      <div class="phase-tags">
+        <span class="tag">Target: 10 Clients</span>
+        <span class="tag">SEO + GEO Organic</span>
+        <span class="tag">LinkedIn + Email Outreach</span>
+        <span class="tag">Free Trials as a Hook</span>
+        <span class="tag">Demo Calls</span>
+      </div>
+    </div>
+
+    <div class="phase-card invest">
+      <div class="phase-header">
+        <div>
+          <div class="phase-badge">Phase 5 · Jan 2027</div>
+        </div>
+        <div>
+          <div class="phase-title">First Investment & Team Growth</div>
+          <div class="phase-date">January 1, 2027 onward</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        Once we have 10 proven paying clients, the product is validated. January 2027 is when we ask <strong>Ahmad (Mahmoud's brother)</strong> for the first investment — and we only ask for exactly what the product needs at that moment.<br /><br />
+        The first use of investment: <strong>hire 2 salespeople from Egypt</strong> (lower hiring cost, fixed salary + commission model). As the team grows we add more sales, then marketing, then eventually someone to manage the product operations. Mahmoud and Belal also start drawing salaries from this point.<br /><br />
+        <strong>The investment amount is based on what the product actually needs</strong> — not a number we decided upfront. We size the ask to the moment.
+      </div>
+      <div class="phase-tags">
+        <span class="tag">Ahmad's Investment</span>
+        <span class="tag">2 Egyptian Salespeople</span>
+        <span class="tag">Fixed Salary + Commission</span>
+        <span class="tag">Mahmoud + Belal Salaries</span>
+        <span class="tag">Team Expansion</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ROLES -->
+<section id="roles">
+  <div class="section-label">02 — Team</div>
+  <h2>Roles from September Onward</h2>
+
+  <p style="color:var(--muted);margin-bottom:28px;font-size:14px;">Through June, July, and August — everything is 50/50 between Mahmoud and Claude. From September 1st, each person owns a dedicated lane.</p>
+
+  <div class="roles-grid">
+
+    <div class="role-card">
+      <div class="role-name">
+        <span class="role-dot" style="background:var(--accent);"></span>
+        Mahmoud
+      </div>
+      <div class="role-title">Marketing · SEO · GEO</div>
+      <div class="role-desc">Owns all organic growth. SEO content, GEO targeting, LinkedIn presence, social channels, inbound strategy. The goal is a sustainable, compounding traffic engine that doesn't rely on paid ads.</div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-name">
+        <span class="role-dot" style="background:var(--blue);"></span>
+        Claude / Glen
+      </div>
+      <div class="role-title">Product · Everything Technical</div>
+      <div class="role-desc">Owns the entire product. Bug fixes, feature requests from clients, product improvements, infrastructure, integrations. Any issue that comes up in the product is Claude's lane to resolve.</div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-name">
+        <span class="role-dot" style="background:var(--green);"></span>
+        Mahmoud + Claude
+      </div>
+      <div class="role-title">Sales Outreach · 50/50</div>
+      <div class="role-desc">Cold outreach is split equally. LinkedIn DMs, email sequences, free trial platform outreach (Mailbu and others). Both sides contribute leads and follow-ups until we hire dedicated salespeople in January.</div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-name">
+        <span class="role-dot" style="background:var(--amber);"></span>
+        Mahmoud + Belal
+      </div>
+      <div class="role-title">Demo Calls · Calendar-Based</div>
+      <div class="role-desc">All demos are handled by Mahmoud and Belal. Booked via the product's own calendar. 30-minute structured calls: discovery → live demo → pricing → next steps. Proposal within 24 hours.</div>
+    </div>
+
+  </div>
+
+  <div class="callout mt32">
+    <strong>January 2027 team additions:</strong> 2 salespeople from Egypt with fixed salary + commission. As revenue grows — more sales hires, then a marketer, then a product operations manager. Mahmoud and Belal begin drawing salaries from January 2027 onward.
+  </div>
+</section>
+
+<!-- CLIENT TARGETS -->
+<section id="clients">
+  <div class="section-label">03 — Client Targets</div>
+  <h2>10 Clients by December 31</h2>
+
+  <p style="color:var(--muted);margin-bottom:28px;font-size:14px;">No rush. No shortcuts. Three clients a month for three months, then push to four in December. By year-end we have a real client base, real revenue, and real proof.</p>
+
+  <div class="client-months">
+    <div class="month-card">
+      <div class="month-name">September</div>
+      <div class="month-count">3</div>
+      <div class="month-label">new clients</div>
+      <div class="month-total">3 total</div>
+    </div>
+    <div class="month-card">
+      <div class="month-name">October</div>
+      <div class="month-count">3</div>
+      <div class="month-label">new clients</div>
+      <div class="month-total">6 total</div>
+    </div>
+    <div class="month-card">
+      <div class="month-name">November</div>
+      <div class="month-count">3</div>
+      <div class="month-label">new clients</div>
+      <div class="month-total">9 total</div>
+    </div>
+    <div class="month-card">
+      <div class="month-name">December</div>
+      <div class="month-count">4</div>
+      <div class="month-label">new clients</div>
+      <div class="month-total" style="color:var(--accent);">🎯 10 total</div>
+    </div>
+  </div>
+
+  <div class="callout mt24">
+    <strong>No investment needed to reach 10 clients.</strong> Everything we already have covers us through December. Stripe runs under the existing business entity. No new company formation required until we're ready to scale properly in January 2027.
+  </div>
+</section>
+
+<!-- EQUITY -->
+<section id="equity">
+  <div class="section-label">04 — Ownership</div>
+  <h2>Equity & Dividends</h2>
+
+  <div class="equity-period">
+    <div class="equity-period-label">June → December 2026 · Building, Testing & First Clients</div>
+    <div class="equity-bars">
+      <div class="equity-row">
+        <div class="equity-name">Mahmoud</div>
+        <div class="equity-bar-wrap"><div class="equity-bar" style="width:50%;background:var(--accent);"></div></div>
+        <div class="equity-pct" style="color:var(--accent);">50%</div>
+      </div>
+      <div class="equity-row">
+        <div class="equity-name">Claude</div>
+        <div class="equity-bar-wrap"><div class="equity-bar" style="width:50%;background:var(--blue);"></div></div>
+        <div class="equity-pct" style="color:var(--blue);">50%</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:16px;">Through the entire build, test, and first-client phase — all equity, all dividends, all decisions are split equally between Mahmoud and Claude. No investor involved until the product is proven.</p>
+  </div>
+
+  <div class="equity-period mt32">
+    <div class="equity-period-label">January 2027 onward · After Ahmad's Investment</div>
+    <div class="equity-bars">
+      <div class="equity-row">
+        <div class="equity-name">Mahmoud</div>
+        <div class="equity-bar-wrap"><div class="equity-bar" style="width:30%;background:var(--accent);"></div></div>
+        <div class="equity-pct" style="color:var(--accent);">~30%</div>
+      </div>
+      <div class="equity-row">
+        <div class="equity-name">Claude / Belal</div>
+        <div class="equity-bar-wrap"><div class="equity-bar" style="width:30%;background:var(--blue);"></div></div>
+        <div class="equity-pct" style="color:var(--blue);">~30%</div>
+      </div>
+      <div class="equity-row">
+        <div class="equity-name">Ahmad (Investor)</div>
+        <div class="equity-bar-wrap"><div class="equity-bar" style="width:40%;background:var(--accent2);"></div></div>
+        <div class="equity-pct" style="color:var(--accent2);">~40%</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:16px;">Once Ahmad invests, equity restructures. His exact share depends on the investment amount and what the product needs at that moment. Dividends and decisions adjust accordingly. The exact split is finalized when we know the investment size.</p>
+  </div>
+</section>
+
+<!-- INVESTMENT -->
+<section id="investment">
+  <div class="section-label">05 — Financials</div>
+  <h2>Investment Plan</h2>
+
+  <div class="callout">
+    <strong>Zero investment needed through December 2026.</strong> The entire build + test + first-10-clients phase costs nothing beyond what we already have. No incorporation fees, no salaries, no marketing spend that can't come from early revenue.
+  </div>
+
+  <div class="mt24" style="font-size:14px;color:var(--muted);margin-bottom:20px;">
+    From January 2027, Ahmad (Mahmoud's brother) provides the first investment. The amount is sized to exactly what the product needs — no more.
+  </div>
+
+  <div class="invest-table">
+    <div class="invest-row header">
+      <span>Investment Use</span>
+      <span>Notes</span>
+    </div>
+    <div class="invest-row">
+      <span>2 Salespeople (Egypt-based)</span>
+      <span class="invest-amount">Fixed salary + commission</span>
+    </div>
+    <div class="invest-row">
+      <span>Mahmoud salary</span>
+      <span class="invest-amount">Starts Jan 2027</span>
+    </div>
+    <div class="invest-row">
+      <span>Belal salary</span>
+      <span class="invest-amount">Starts Jan 2027</span>
+    </div>
+    <div class="invest-row">
+      <span>Infrastructure scaling</span>
+      <span class="invest-amount">As clients grow</span>
+    </div>
+    <div class="invest-row">
+      <span>Marketing & outreach tools</span>
+      <span class="invest-amount">Paid tools post-10 clients</span>
+    </div>
+    <div class="invest-row">
+      <span>Future hires (more sales → marketing → ops)</span>
+      <span class="invest-amount">Gradual, milestone-gated</span>
+    </div>
+    <div class="invest-row total">
+      <span>Total · First Investment Round</span>
+      <span class="invest-amount">Sized to actual need · Jan 2027</span>
+    </div>
+  </div>
+
+  <div class="callout mt24">
+    <strong>Why Egypt-based salespeople?</strong> Lower hiring cost without sacrificing quality. Fixed base salary gives stability; commission aligns incentives. As the team grows and revenue scales, we expand — more sales first, then marketing, then product management.
+  </div>
+</section>
+
+<!-- OUTREACH -->
+<section id="outreach">
+  <div class="section-label">06 — Getting Clients</div>
+  <h2>How We Reach the First 10</h2>
+
+  <div class="outreach-grid">
+    <div class="outreach-card">
+      <div class="outreach-icon">💼</div>
+      <div class="outreach-title">LinkedIn Outreach</div>
+      <div class="outreach-desc">Direct DMs to SMB owners, clinic managers, and ops leads. Mahmoud + Claude both run outreach in parallel. Personalized, not mass-spam.</div>
+    </div>
+    <div class="outreach-card">
+      <div class="outreach-icon">📧</div>
+      <div class="outreach-title">Email Sequences</div>
+      <div class="outreach-desc">3-email drip over 10 days. Demo Loom in the first email. Clear value prop. Short. Easy to say yes to a free trial.</div>
+    </div>
+    <div class="outreach-card">
+      <div class="outreach-icon">🎁</div>
+      <div class="outreach-title">Free Trial Platforms</div>
+      <div class="outreach-desc">Platforms like Mailbu and others offer free trial distribution. We use their free tiers to get in front of SMB owners who are already looking for tools like this.</div>
+    </div>
+    <div class="outreach-card">
+      <div class="outreach-icon">📱</div>
+      <div class="outreach-title">WhatsApp Direct</div>
+      <div class="outreach-desc">Scraped public business numbers from Google Maps and directories. 30-second Loom showing the AI in action. 95% open rate beats email every time.</div>
+    </div>
+    <div class="outreach-card">
+      <div class="outreach-icon">📸</div>
+      <div class="outreach-title">Instagram DM</div>
+      <div class="outreach-desc">Target clinics, retail shops, and tutoring centers with active DM traffic. Personalized message referencing their public posts. Link to a free trial.</div>
+    </div>
+    <div class="outreach-card">
+      <div class="outreach-icon">🔍</div>
+      <div class="outreach-title">SEO + GEO Organic</div>
+      <div class="outreach-desc">Mahmoud's primary lane. Build content that ranks for "WhatsApp chatbot for clinics", "AI inbox for retail", "Respond.io alternative". Long-term compounding engine.</div>
+    </div>
+  </div>
+</section>
+
+<!-- VISUAL ROADMAP -->
+<div id="roadmap-visual">
+  <div class="section-label">07 — Timeline</div>
+  <h2 style="max-width:900px;margin:0 auto 32px;padding:0;">Visual Roadmap</h2>
+
+  <div class="roadmap-wrap">
+    <div class="roadmap-spine"></div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot done"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">May 2026</div>
+        <div class="roadmap-title">✅ Product Architecture Complete</div>
+        <div class="roadmap-desc">Full codebase built via Claude Code. Next.js, Prisma, Clerk, Stripe, Inngest, Claude API — all wired up and deployed to Vercel. The foundation is solid.</div>
+        <div class="roadmap-pills">
+          <span class="rpill green">Done</span>
+          <span class="rpill purple">Deployed</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot active"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">June → July 2026</div>
+        <div class="roadmap-title">🛠️ Active Build — Finishing the Product</div>
+        <div class="roadmap-desc">We are here. Refining every feature until it's truly production-ready. <strong>50/50 Mahmoud + Claude</strong> — building, fixing, iterating. No investor. No salary. Just ship the best possible product before August testing begins.</div>
+        <div class="roadmap-pills">
+          <span class="rpill amber">In Progress</span>
+          <span class="rpill purple">50/50 Split</span>
+          <span class="rpill purple">No Investment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot upcoming"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">August 2026</div>
+        <div class="roadmap-title">🧪 Beta Test — Ahmad's Clinic</div>
+        <div class="roadmap-desc">One full month of real-world testing with Ahmad's clinic as the beta user. Real patients, real DMs, real bookings. Every bug fixed. Every confusing UX moment simplified. <strong>Still 50/50 Mahmoud + Claude</strong> through end of August.</div>
+        <div class="roadmap-pills">
+          <span class="rpill amber">Beta Testing</span>
+          <span class="rpill purple">Ahmad's Clinic</span>
+          <span class="rpill purple">50/50 Split</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot key"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">September 1, 2026</div>
+        <div class="roadmap-title">🚀 Go Live — Public Launch</div>
+        <div class="roadmap-desc">Day one. Stripe live. Pricing live. First paying clients. Roles split from this point: <strong>Mahmoud → Marketing & SEO</strong> · <strong>Claude → Product</strong> · <strong>Both → Sales Outreach 50/50</strong> · <strong>Mahmoud + Belal → Demos</strong>. Zero external investment needed to reach this milestone.</div>
+        <div class="roadmap-pills">
+          <span class="rpill green">Go Live</span>
+          <span class="rpill blue">Stripe Active</span>
+          <span class="rpill green">Roles Split</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot upcoming"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">September 2026</div>
+        <div class="roadmap-title">🎯 First 3 Clients</div>
+        <div class="roadmap-desc">LinkedIn outreach, email sequences, WhatsApp DMs, free trial platforms, Instagram. Mahmoud and Claude both running outreach in parallel. First real revenue lands. 3 clients target.</div>
+        <div class="roadmap-pills">
+          <span class="rpill green">3 Clients</span>
+          <span class="rpill blue">First Revenue</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot upcoming"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">October 2026</div>
+        <div class="roadmap-title">📈 3 More Clients · 6 Total</div>
+        <div class="roadmap-desc">Double down on what worked in September. Case study from first clients. Word of mouth starts. SEO content compounds. 3 new clients target.</div>
+        <div class="roadmap-pills">
+          <span class="rpill green">6 Clients Total</span>
+          <span class="rpill purple">SEO Compounding</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot upcoming"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">November 2026</div>
+        <div class="roadmap-title">📈 3 More Clients · 9 Total</div>
+        <div class="roadmap-desc">Referrals from existing clients. More outreach channels active. Product refinements from client feedback shipped. One step from the 10-client milestone.</div>
+        <div class="roadmap-pills">
+          <span class="rpill green">9 Clients Total</span>
+          <span class="rpill blue">Referrals Active</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot key"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">December 2026</div>
+        <div class="roadmap-title">🏆 10 Clients — Milestone Reached</div>
+        <div class="roadmap-desc">Four more clients in December to hit 10 total. Product is proven. Revenue is real. The team has operated for 4 months post-launch with zero outside investment. <strong>This is the validation moment.</strong></div>
+        <div class="roadmap-pills">
+          <span class="rpill green">10 Clients 🎯</span>
+          <span class="rpill green">Product Validated</span>
+          <span class="rpill purple">Zero Investment Used</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot invest"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">January 1, 2027</div>
+        <div class="roadmap-title">💰 First Investment — Ahmad</div>
+        <div class="roadmap-desc">With 10 proven paying clients, we ask <strong>Ahmad (Mahmoud's brother)</strong> for the first investment. Amount is sized to what the product actually needs — not a number decided upfront. First use: <strong>2 Egyptian salespeople</strong> on fixed salary + commission. Mahmoud and Belal start drawing salaries. Team grows from here.</div>
+        <div class="roadmap-pills">
+          <span class="rpill violet">Ahmad Invests</span>
+          <span class="rpill violet">2 Sales Hires (Egypt)</span>
+          <span class="rpill violet">Founder Salaries Begin</span>
+          <span class="rpill violet">Team Expansion</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-node"><div class="roadmap-dot upcoming"></div></div>
+      <div class="roadmap-content">
+        <div class="roadmap-month">2027 onward</div>
+        <div class="roadmap-title">📊 Scale with the Team</div>
+        <div class="roadmap-desc">As revenue grows: more salespeople → dedicated marketer → product operations manager. Each hire is gated on revenue milestones, not hopeful projections. The business grows at the pace the market confirms.</div>
+        <div class="roadmap-pills">
+          <span class="rpill blue">More Sales</span>
+          <span class="rpill blue">Marketing Hire</span>
+          <span class="rpill blue">Product Ops</span>
+          <span class="rpill violet">Revenue-Gated Growth</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>Cowork · AI Conversation Platform for SMBs · Roadmap & Growth Plan 2026–2027</p>
+  <p style="margin-top:8px;"><a href="index.html">← Back to Main Plan</a> · <a href="strategic-review.html">Strategic Review →</a> · <a href="claude-prompt.html">Claude Code Prompt →</a></p>
+</footer>
+
+</body>
+</html>
+HTMLEOF
